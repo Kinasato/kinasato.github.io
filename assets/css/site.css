@@ -1,0 +1,207 @@
+/* サイト固有のレイアウト。色・文字はデジタル庁デザインシステム（assets/dads）のトークンを使う */
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(16 / 16 * 1rem); }
+
+body {
+  margin: 0;
+  background-color: var(--color-neutral-white);
+  color: var(--color-neutral-solid-gray-800);
+  font-size: calc(16 / 16 * 1rem);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+
+p { margin: 0 0 1lh; }
+
+.container {
+  max-width: calc(1040 / 16 * 1rem);
+  margin: 0 auto;
+  padding: 0 calc(16 / 16 * 1rem);
+}
+
+@media (min-width: 48rem) {
+  .container { padding: 0 calc(32 / 16 * 1rem); }
+}
+
+/* スキップリンク */
+.skip-link {
+  position: absolute;
+  top: calc(8 / 16 * 1rem);
+  left: calc(8 / 16 * 1rem);
+  z-index: 10;
+  padding: calc(8 / 16 * 1rem) calc(16 / 16 * 1rem);
+  background-color: var(--color-neutral-white);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible { transform: none; }
+
+/* ヘッダー */
+.site-header {
+  border-top: calc(6 / 16 * 1rem) solid var(--color-key-900);
+  background-color: var(--color-neutral-white);
+}
+
+.site-header__brand {
+  display: flex;
+  align-items: center;
+  min-height: calc(64 / 16 * 1rem);
+}
+
+.site-header__logo:any-link {
+  color: var(--color-neutral-solid-gray-900);
+  font-weight: bold;
+  font-size: calc(22 / 16 * 1rem);
+  text-decoration: none;
+}
+
+.site-nav {
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-neutral-solid-gray-420);
+}
+
+.site-nav .dads-horizontal-menu {
+  border-bottom: 0;
+  white-space: nowrap;
+}
+
+.site-nav .dads-horizontal-menu__item-inner {
+  min-height: calc(52 / 16 * 1rem);
+  padding: calc(12 / 16 * 1rem) calc(16 / 16 * 1rem);
+}
+
+/* ヒーロー */
+.hero {
+  padding: calc(48 / 16 * 1rem) 0;
+  background-color: var(--color-key-50);
+}
+
+@media (min-width: 48rem) {
+  .hero { padding: calc(80 / 16 * 1rem) 0; }
+}
+
+.hero__title {
+  margin: 0 0 calc(16 / 16 * 1rem);
+  color: var(--color-neutral-solid-gray-900);
+  font-size: clamp(calc(36 / 16 * 1rem), 8vw, calc(57 / 16 * 1rem));
+  line-height: 1.4;
+}
+
+.hero__lead { max-width: 40em; }
+
+.hero__updated {
+  margin: 0;
+  color: var(--color-neutral-solid-gray-600);
+  font-size: calc(14 / 16 * 1rem);
+}
+
+/* セクション */
+.section {
+  padding: calc(56 / 16 * 1rem) 0;
+  border-bottom: 1px solid var(--color-neutral-solid-gray-100);
+}
+
+.section > .container > .dads-heading { margin-bottom: calc(32 / 16 * 1rem); }
+
+.subsection + .subsection { margin-top: calc(48 / 16 * 1rem); }
+
+.subsection > .dads-heading { margin-bottom: calc(24 / 16 * 1rem); }
+
+.block + .block { margin-top: calc(32 / 16 * 1rem); }
+
+.block > .dads-heading { margin: 0 0 calc(12 / 16 * 1rem); }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(8 / 16 * 1rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quote-source {
+  margin-top: calc(8 / 16 * 1rem);
+  color: var(--color-neutral-solid-gray-600);
+  font-size: calc(14 / 16 * 1rem);
+}
+
+.dads-blockquote + .dads-blockquote { margin-top: calc(16 / 16 * 1rem); }
+
+@media (max-width: 47.99rem) {
+  .dads-blockquote { margin: 0; }
+}
+
+/* 経歴カード */
+.career {
+  border: 1px solid var(--color-neutral-solid-gray-420);
+  border-radius: calc(12 / 16 * 1rem);
+  padding: calc(24 / 16 * 1rem) calc(16 / 16 * 1rem);
+}
+
+@media (min-width: 48rem) {
+  .career { padding: calc(32 / 16 * 1rem); }
+}
+
+.career + .career { margin-top: calc(24 / 16 * 1rem); }
+
+.career .dads-description-list {
+  grid-template-columns: max-content 1fr;
+  gap: calc(4 / 16 * 1rem) calc(16 / 16 * 1rem);
+}
+
+.career .dads-description-list dd { margin-left: 0; }
+
+.career .dads-accordion { margin-top: calc(16 / 16 * 1rem); border-top: 1px solid var(--color-neutral-solid-gray-420); }
+
+.award {
+  margin-top: calc(16 / 16 * 1rem);
+  border-left: calc(4 / 16 * 1rem) solid var(--color-primitive-yellow-500);
+  padding: calc(8 / 16 * 1rem) calc(16 / 16 * 1rem);
+  background-color: var(--color-primitive-yellow-50);
+}
+
+/* スキル表 */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.skills-table .dads-table__table { min-width: calc(720 / 16 * 1rem); }
+
+.skills-table td:first-child { font-weight: bold; }
+
+.skills-table .dads-chip-label { font-size: calc(14 / 16 * 1rem); min-height: calc(28 / 16 * 1rem); }
+
+/* ステータス */
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(8 / 16 * 1rem);
+  margin-bottom: calc(24 / 16 * 1rem);
+}
+
+/* SNSリンク */
+.link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(16 / 16 * 1rem) calc(32 / 16 * 1rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* フッター */
+.site-footer {
+  padding: calc(32 / 16 * 1rem) 0;
+  background-color: var(--color-neutral-solid-gray-50);
+  color: var(--color-neutral-solid-gray-700);
+  font-size: calc(14 / 16 * 1rem);
+}
+
+.site-footer p { margin: 0; }
+
+.site-footer p + p { margin-top: calc(4 / 16 * 1rem); }
