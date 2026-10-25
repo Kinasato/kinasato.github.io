@@ -4,6 +4,7 @@
 
 html { scroll-behavior: smooth; scroll-padding-top: calc(16 / 16 * 1rem); }
 
+/* 本文：Std-16N-170 */
 body {
   margin: 0;
   background-color: var(--color-neutral-white);
@@ -13,7 +14,10 @@ body {
   letter-spacing: 0.02em;
 }
 
-p { margin: 0 0 1lh; }
+/* 段落間は行ボックスの1.5倍以上（タイポグラフィ：アクセシビリティ） */
+p { margin: 0 0 1.5lh; }
+
+p:last-child { margin-bottom: 0; }
 
 .container {
   max-width: calc(1040 / 16 * 1rem);
@@ -38,6 +42,20 @@ p { margin: 0 0 1lh; }
 
 .skip-link:focus-visible { transform: none; }
 
+/* 新規タブで開くリンクのテールアイコン */
+.dads-link__icon { margin-left: calc(4 / 16 * 1rem); }
+
+/* 横スクロール領域：スクロールを促すシャドー（テーブル：使い方） */
+.scroll-shadow {
+  overflow-x: auto;
+  background:
+    linear-gradient(to right, var(--color-neutral-white) 30%, transparent) left / calc(40 / 16 * 1rem) 100% no-repeat local,
+    linear-gradient(to left, var(--color-neutral-white) 30%, transparent) right / calc(40 / 16 * 1rem) 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, var(--color-neutral-opacity-gray-300), transparent) left / calc(16 / 16 * 1rem) 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, var(--color-neutral-opacity-gray-300), transparent) right / calc(16 / 16 * 1rem) 100% no-repeat scroll;
+  background-color: var(--color-neutral-white);
+}
+
 /* ヘッダー */
 .site-header {
   border-top: calc(6 / 16 * 1rem) solid var(--color-key-900);
@@ -50,17 +68,16 @@ p { margin: 0 0 1lh; }
   min-height: calc(64 / 16 * 1rem);
 }
 
+/* Std-22B-150 */
 .site-header__logo:any-link {
   color: var(--color-neutral-solid-gray-900);
   font-weight: bold;
   font-size: calc(22 / 16 * 1rem);
+  line-height: 1.5;
   text-decoration: none;
 }
 
-.site-nav {
-  overflow-x: auto;
-  border-bottom: 1px solid var(--color-neutral-solid-gray-420);
-}
+.site-nav { border-bottom: 1px solid var(--color-neutral-solid-gray-420); }
 
 .site-nav .dads-horizontal-menu {
   border-bottom: 0;
@@ -82,25 +99,30 @@ p { margin: 0 0 1lh; }
   .hero { padding: calc(80 / 16 * 1rem) 0; }
 }
 
+/* モバイル：Std-36B-140 / デスクトップ：Dsp-57B-140 */
 .hero__title {
   margin: 0 0 calc(16 / 16 * 1rem);
   color: var(--color-neutral-solid-gray-900);
-  font-size: clamp(calc(36 / 16 * 1rem), 8vw, calc(57 / 16 * 1rem));
+  font-size: calc(36 / 16 * 1rem);
   line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+@media (min-width: 48rem) {
+  .hero__title {
+    font-size: calc(57 / 16 * 1rem);
+    letter-spacing: 0;
+  }
 }
 
 .hero__lead { max-width: 40em; }
 
-.hero__updated {
-  margin: 0;
-  color: var(--color-neutral-solid-gray-600);
-  font-size: calc(14 / 16 * 1rem);
-}
+.hero__updated { color: var(--color-neutral-solid-gray-600); }
 
 /* セクション */
 .section {
   padding: calc(56 / 16 * 1rem) 0;
-  border-bottom: 1px solid var(--color-neutral-solid-gray-100);
+  border-bottom: 1px solid var(--color-neutral-solid-gray-420);
 }
 
 .section > .container > .dads-heading { margin-bottom: calc(32 / 16 * 1rem); }
@@ -122,58 +144,57 @@ p { margin: 0 0 1lh; }
   list-style: none;
 }
 
-.quote-source {
+/* 引用 */
+.quote { margin: 0; }
+
+.quote + .quote { margin-top: calc(24 / 16 * 1rem); }
+
+.quote__source {
   margin-top: calc(8 / 16 * 1rem);
+  margin-left: calc(40 / 16 * 1rem);
   color: var(--color-neutral-solid-gray-600);
-  font-size: calc(14 / 16 * 1rem);
 }
 
-.dads-blockquote + .dads-blockquote { margin-top: calc(16 / 16 * 1rem); }
+.quote__source cite { font-style: normal; }
 
 @media (max-width: 47.99rem) {
   .dads-blockquote { margin: 0; }
+  .quote__source { margin-left: 0; }
 }
 
-/* 経歴カード */
+/* 経歴カード：外周はGray-420（背景白に対して3:1）、角丸ミディアム */
 .career {
   border: 1px solid var(--color-neutral-solid-gray-420);
   border-radius: calc(12 / 16 * 1rem);
   padding: calc(24 / 16 * 1rem) calc(16 / 16 * 1rem);
+  background-color: var(--color-neutral-white);
 }
 
 @media (min-width: 48rem) {
   .career { padding: calc(32 / 16 * 1rem); }
+
+  .career .dads-description-list {
+    grid-template-columns: max-content 1fr;
+    column-gap: calc(16 / 16 * 1rem);
+  }
+
+  .career .dads-description-list > div { display: contents; }
+
+  .career .dads-description-list dd { margin-left: 0; }
 }
 
 .career + .career { margin-top: calc(24 / 16 * 1rem); }
 
-.career .dads-description-list {
-  grid-template-columns: max-content 1fr;
-  gap: calc(4 / 16 * 1rem) calc(16 / 16 * 1rem);
-}
+.career > .dads-heading { margin: 0; }
 
-.career .dads-description-list dd { margin-left: 0; }
-
-.career .dads-accordion { margin-top: calc(16 / 16 * 1rem); border-top: 1px solid var(--color-neutral-solid-gray-420); }
-
-.award {
-  margin-top: calc(16 / 16 * 1rem);
-  border-left: calc(4 / 16 * 1rem) solid var(--color-primitive-yellow-500);
-  padding: calc(8 / 16 * 1rem) calc(16 / 16 * 1rem);
-  background-color: var(--color-primitive-yellow-50);
-}
+.career .dads-disclosure { margin-top: calc(24 / 16 * 1rem); }
 
 /* スキル表 */
-.table-scroll {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
 .skills-table .dads-table__table { min-width: calc(720 / 16 * 1rem); }
 
-.skills-table td:first-child { font-weight: bold; }
+.skills-table :is(td:nth-child(2), td:nth-child(3)) { white-space: nowrap; }
 
-.skills-table .dads-chip-label { font-size: calc(14 / 16 * 1rem); min-height: calc(28 / 16 * 1rem); }
+.skills-table .dads-chip-label { overflow-wrap: normal; }
 
 /* ステータス */
 .status {
@@ -184,17 +205,7 @@ p { margin: 0 0 1lh; }
   margin-bottom: calc(24 / 16 * 1rem);
 }
 
-/* SNSリンク */
-.link-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(16 / 16 * 1rem) calc(32 / 16 * 1rem);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* フッター */
+/* フッター：領域的な制約のある付随情報のため14pxを許容 */
 .site-footer {
   padding: calc(32 / 16 * 1rem) 0;
   background-color: var(--color-neutral-solid-gray-50);
@@ -204,4 +215,4 @@ p { margin: 0 0 1lh; }
 
 .site-footer p { margin: 0; }
 
-.site-footer p + p { margin-top: calc(4 / 16 * 1rem); }
+.site-footer p + p { margin-top: calc(8 / 16 * 1rem); }
