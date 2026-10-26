@@ -111,6 +111,11 @@ if (skillFilter) {
   const domainOf = (row) => row.querySelector('.dads-chip-label')?.dataset.color ?? 'gray';
   const filterButtons = [...skillFilter.querySelectorAll('[data-filter]')];
   const status = skillFilter.querySelector('.skill-filter__status');
+  const skillCount = document.querySelector('.skill-count');
+  if (skillCount) {
+    skillCount.textContent = `（全${rows.length}件）`;
+    skillCount.hidden = false;
+  }
   const labels = new Map();
   for (const button of filterButtons) {
     const key = button.dataset.filter;
