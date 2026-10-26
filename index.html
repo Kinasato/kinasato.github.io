@@ -3,14 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (() => {
+      let theme = null;
+      try { theme = localStorage.getItem('theme'); } catch (e) {}
+      if (theme !== 'dark' && theme !== 'light') {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
   <title>Kinasato vil. | 鬼無里 餅衛門のポートフォリオ</title>
   <meta name="description" content="情シス（コーポレートITエンジニア）を生業としている、鬼無里 餅衛門のスキルや経歴・履歴を掲載しているサイトです。">
+  <link rel="canonical" href="https://kinasato.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kinasato vil.">
+  <meta property="og:title" content="Kinasato vil. | 鬼無里 餅衛門のポートフォリオ">
+  <meta property="og:description" content="情シス（コーポレートITエンジニア）を生業としている、鬼無里 餅衛門のスキルや経歴・履歴を掲載しているサイトです。">
+  <meta property="og:url" content="https://kinasato.github.io/">
+  <meta property="og:image" content="https://kinasato.github.io/assets/images/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="コーポレートITエンジニア（情シス）鬼無里 餅衛門のポートフォリオ（Kinasato vil.）">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@kinasato_mochi">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="assets/images/logo-mark-64.png" sizes="64x64" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/dads/global.css">
   <link rel="stylesheet" href="assets/dads/components/heading.css">
   <link rel="stylesheet" href="assets/dads/components/horizontal-menu.css">
+  <link rel="stylesheet" href="assets/dads/components/accordion.css">
   <link rel="stylesheet" href="assets/dads/components/disclosure.css">
   <link rel="stylesheet" href="assets/dads/components/chip-label.css">
   <link rel="stylesheet" href="assets/dads/components/table.css">
@@ -18,37 +47,104 @@
   <link rel="stylesheet" href="assets/dads/components/link.css">
   <link rel="stylesheet" href="assets/dads/components/description-list.css">
   <link rel="stylesheet" href="assets/dads/components/blockquote.css">
+  <link rel="stylesheet" href="assets/dads/components/button.css">
+  <link rel="stylesheet" href="assets/dads/components/drawer.css">
+  <link rel="stylesheet" href="assets/dads/components/hamburger-menu-button.css">
+  <link rel="stylesheet" href="assets/dads/components/menu-list.css">
   <link rel="stylesheet" href="assets/css/site.css">
+  <script src="assets/js/site.js" defer></script>
 </head>
 <body>
   <a class="skip-link dads-link" href="#main">本文へ移動</a>
 
   <header class="site-header">
     <div class="container site-header__brand">
-      <a class="site-header__logo" href="#top">Kinasato vil.</a>
+      <a class="site-header__logo" href="#top"><img class="site-header__logo-mark" src="assets/images/logo-mark-64.png" width="32" height="32" alt="">Kinasato vil.</a>
+      <div class="site-header__actions">
+        <button class="dads-hamburger-menu-button theme-toggle site-header__theme-toggle" type="button" aria-pressed="false" data-theme-toggle hidden>
+          <svg class="dads-hamburger-menu-button__icon theme-toggle__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentcolor" stroke-width="2" stroke-linejoin="round"/></svg>
+          ダークモード
+        </button>
+        <button class="dads-hamburger-menu-button site-header__menu-button" type="button" aria-haspopup="dialog" aria-controls="site-drawer" aria-expanded="false" hidden>
+          <svg class="dads-hamburger-menu-button__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 18V16H21V18H3ZM3 13V11H21V13H3ZM3 8V6H21V8H3Z" fill="currentcolor"/>
+          </svg>
+          メニュー
+        </button>
+      </div>
     </div>
-    <nav class="site-nav scroll-shadow" aria-label="ページ内メニュー">
+  </header>
+
+  <dialog id="site-drawer" class="dads-drawer" data-placement="right" aria-label="ページ内メニュー">
+    <div class="dads-drawer__header">
+      <button class="dads-hamburger-menu-button" type="button" data-drawer-close>
+        <svg class="dads-hamburger-menu-button__icon" width="24" height="24" viewBox="0 0 120 120" aria-hidden="true">
+          <path d="M32 95L25 88L53 60L25 32L32 25L60 53L88 25L95 32L67 60L95 88L88 95L60 67L32 95Z" fill="currentcolor"/>
+        </svg>
+        閉じる
+      </button>
+    </div>
+    <div class="dads-drawer__body">
+      <ul class="dads-menu-list">
+        <li><a class="dads-menu-list__item" data-type="box" data-size="regular" href="#about">自己紹介</a></li>
+        <li><a class="dads-menu-list__item" data-type="box" data-size="regular" href="#specialty">専門・得意領域</a></li>
+        <li><a class="dads-menu-list__item" data-type="box" data-size="regular" href="#career">経歴・履歴</a></li>
+        <li><a class="dads-menu-list__item" data-type="box" data-size="regular" href="#skills">ITサービス・ソフトウェア・言語</a></li>
+        <li><a class="dads-menu-list__item" data-type="box" data-size="regular" href="#certifications">保有資格</a></li>
+        <li><a class="dads-menu-list__item" data-type="box" data-size="regular" href="#output">アウトプット</a></li>
+        <li><a class="dads-menu-list__item" data-type="box" data-size="regular" href="#job-change">転職</a></li>
+        <li><a class="dads-menu-list__item" data-type="box" data-size="regular" href="#contact">お問い合わせ</a></li>
+      </ul>
+      <div class="drawer-theme">
+        <button class="dads-hamburger-menu-button theme-toggle" type="button" aria-pressed="false" data-theme-toggle hidden>
+          <svg class="dads-hamburger-menu-button__icon theme-toggle__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentcolor" stroke-width="2" stroke-linejoin="round"/></svg>
+          ダークモード
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <nav class="site-nav scroll-shadow" aria-label="ページ内メニュー">
       <div class="container">
         <ul class="dads-horizontal-menu">
           <li class="dads-horizontal-menu__item"><a class="dads-horizontal-menu__item-inner" href="#about">自己紹介</a></li>
+          <li class="dads-horizontal-menu__item"><a class="dads-horizontal-menu__item-inner" href="#specialty">専門・得意領域</a></li>
           <li class="dads-horizontal-menu__item"><a class="dads-horizontal-menu__item-inner" href="#career">経歴・履歴</a></li>
           <li class="dads-horizontal-menu__item"><a class="dads-horizontal-menu__item-inner" href="#skills">ITサービス・ソフトウェア・言語</a></li>
           <li class="dads-horizontal-menu__item"><a class="dads-horizontal-menu__item-inner" href="#certifications">保有資格</a></li>
           <li class="dads-horizontal-menu__item"><a class="dads-horizontal-menu__item-inner" href="#output">アウトプット</a></li>
-          <li class="dads-horizontal-menu__item"><a class="dads-horizontal-menu__item-inner" href="#side-job">副業</a></li>
           <li class="dads-horizontal-menu__item"><a class="dads-horizontal-menu__item-inner" href="#job-change">転職</a></li>
-          <li class="dads-horizontal-menu__item"><a class="dads-horizontal-menu__item-inner" href="#sns">キャリアSNS</a></li>
+          <li class="dads-horizontal-menu__item"><a class="dads-horizontal-menu__item-inner" href="#contact">お問い合わせ</a></li>
         </ul>
       </div>
     </nav>
-  </header>
 
   <main id="main">
     <section class="hero" id="top">
       <div class="container">
-        <h1 class="hero__title">Kinasato vil.</h1>
-        <p class="hero__lead">情シス（コーポレートITエンジニア）を生業としている、鬼無里 餅衛門の情報を掲載しているサイトです。<br>情シスとしてのスキルや経歴・履歴などを更新していきます。</p>
-        <p class="hero__updated">Last Update：<time datetime="2026-02-27">2026.02.27</time></p>
+        <div class="hero__head">
+          <img class="hero__logo" src="assets/images/logo-400.png" width="96" height="96" alt="">
+          <hgroup>
+            <p class="hero__shoulder">コーポレートITエンジニア<wbr><span class="u-nowrap">（情シス）</span></p>
+            <h1 class="hero__title">鬼無里 餅衛門</h1>
+          </hgroup>
+        </div>
+        <div class="hero__body">
+          <p class="hero__lead">情シス（コーポレートITエンジニア）を生業としている、鬼無里 餅衛門のポートフォリオサイトです。</p>
+          <ul class="dads-list hero__highlights" data-spacing="4">
+            <li>事業会社の情シスとして、コーポレートIT全般を担当（テックリード的ポジション）</li>
+            <li>副業として、コーポレートIT領域をコンサルティング支援</li>
+            <li>情シスとしての知見をアウトプットとして継続発信</li>
+          </ul>
+        </div>
+        <div class="hero__footer">
+          <dl class="hero__meta">
+            <div><dt>拠点</dt><dd>北陸地方</dd></div>
+            <div><dt>働き方</dt><dd>フルリモート</dd></div>
+            <div><dt>情シス歴</dt><dd>2019年〜</dd></div>
+          </dl>
+          <p class="hero__updated">Last Update：<time datetime="2026-10-26">2026.10.26</time></p>
+        </div>
       </div>
     </section>
 
@@ -56,69 +152,104 @@
     <section class="section" id="about" aria-labelledby="about-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">About</p>
+          <p class="dads-heading__shoulder">01 About</p>
           <h2 class="dads-heading__heading" id="about-heading">自己紹介</h2>
         </hgroup>
 
         <div class="subsection">
-          <h3 class="dads-heading" data-size="24" data-rule="2">人となり</h3>
-
-          <div class="block">
-            <h4 class="dads-heading" data-size="18">ごあいさつ</h4>
-            <p>はじめまして、鬼無里 餅衛門と申します。<br>情シス（コーポレートITエンジニア）を生業としております。<br>二児の父としてフルスタック育児業務にも参画中です。</p>
-            <p>文系生まれ、文系育ちですがひょんなことからITに興味を持ち、かれこれ数十年間ITとネットの世界で生きてきました。</p>
-            <p>「ITは誰かの役に立つもの、心を豊かにするもの」というポリシーのもと、今日も情シスとしてどこかの誰かのためITを駆使して働いています。</p>
-          </div>
-
-          <div class="block">
-            <dl class="dads-description-list">
-              <div>
-                <dt>趣味</dt>
-                <dd>noteの更新、紙媒体の漫画・小説収集、ITガジェット収集、IoT家電の購入とメンテ</dd>
-              </div>
-              <div>
-                <dt>好きなもの</dt>
-                <dd>家系ラーメン、ペプシコーラ、フロムソフトウェア製のゲーム</dd>
-              </div>
-              <div>
-                <dt>得意なツール</dt>
-                <dd>
-                  <ul class="chips">
-                    <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Notion</span></li>
-                    <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Slack</span></li>
-                    <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Google Workspace</span></li>
-                    <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Dify</span></li>
-                    <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Microsoft 365</span></li>
-                  </ul>
-                </dd>
-              </div>
-              <div>
-                <dt>性格診断</dt>
-                <dd><a class="dads-link" href="https://www.16personalities.com/ja/infj%E5%9E%8B%E3%81%AE%E6%80%A7%E6%A0%BC" target="_blank" rel="noopener">INFJ型（提唱者）｜16Personalities<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></dd>
-              </div>
-            </dl>
-          </div>
-
-          <div class="block">
-            <h4 class="dads-heading" data-size="18">好きな言葉</h4>
-            <figure class="quote">
-              <blockquote class="dads-blockquote">
-                <p>やってみせ、言って聞かせて、させてみせ、ほめてやらねば、人は動かじ</p>
-              </blockquote>
-              <figcaption class="quote__source">― 山本五十六</figcaption>
-            </figure>
-            <figure class="quote">
-              <blockquote class="dads-blockquote">
-                <p>我が家の伝統でね、男は戦い方からメシの作り方まで一通りのことはこなせるようにしこまれるんだ</p>
-              </blockquote>
-              <figcaption class="quote__source">― トーマス・ベント（<cite>ロマンシング サ・ガ3</cite>）</figcaption>
-            </figure>
-          </div>
+          <h3 class="dads-heading" data-size="24" data-rule="2">ごあいさつ</h3>
+          <p>はじめまして、鬼無里 餅衛門と申します。<br>
+            情シス（コーポレートITエンジニア）を生業としております。<br>
+            ひょんなことからITに興味を持ち、かれこれ数十年間ITとネットの世界で生きてきました。
+            「ITは誰かの役に立つもの、心を豊かにするもの」というポリシーのもと、今日も情シスとしてどこかの誰かのためITを駆使して働いています。</p>
         </div>
 
-        <div class="subsection" id="work-style">
-          <h3 class="dads-heading" data-size="24" data-rule="2">仕事へ取り組む際のポイント</h3>
+        <div class="about-more">
+          <details class="dads-accordion" id="tools">
+            <summary class="dads-accordion__summary" id="tools-summary">
+              <span class="dads-accordion__icon">
+                <svg class="dads-accordion__icon-svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.3 7.3L12 16L20.7 7.3" fill="none" stroke="currentcolor" stroke-width="2"/></svg>
+              </span>
+              <h3>得意なツール・好きなツール</h3>
+            </summary>
+            <div class="dads-accordion__content">
+              <dl class="dads-description-list">
+                <div>
+                  <dt>得意なツール</dt>
+                  <dd>
+                    <ul class="chips">
+                      <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Notion</span></li>
+                      <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Slack</span></li>
+                      <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Google Workspace</span></li>
+                      <li><span class="dads-chip-label" data-style="filled-1" data-color="orange">Dify</span></li>
+                      <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Microsoft 365</span></li>
+                    </ul>
+                  </dd>
+                </div>
+                <div>
+                  <dt>好きなツール</dt>
+                  <dd>
+                    <ul class="chips">
+                      <li><span class="dads-chip-label" data-style="filled-1" data-color="gray">Figma</span></li>
+                      <li><span class="dads-chip-label" data-style="filled-1" data-color="gray">Canva</span></li>
+                      <li><span class="dads-chip-label" data-style="filled-1" data-color="gray">DaVinci Resolve</span></li>
+                      <li><span class="dads-chip-label" data-style="filled-1" data-color="green">SmartHR</span></li>
+                      <li><span class="dads-chip-label" data-style="filled-1" data-color="orange">Claude</span></li>
+                    </ul>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </details>
 
+          <details class="dads-accordion" id="personality">
+            <summary class="dads-accordion__summary" id="personality-summary">
+              <span class="dads-accordion__icon">
+                <svg class="dads-accordion__icon-svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.3 7.3L12 16L20.7 7.3" fill="none" stroke="currentcolor" stroke-width="2"/></svg>
+              </span>
+              <h3>趣味・好きなもの・好きな言葉</h3>
+            </summary>
+            <div class="dads-accordion__content">
+              <dl class="dads-description-list">
+                <div>
+                  <dt>趣味</dt>
+                  <dd>noteの更新、紙媒体の漫画・小説収集、ITガジェット収集、IoT家電の購入とメンテ</dd>
+                </div>
+                <div>
+                  <dt>好きなもの</dt>
+                  <dd>家系ラーメン、フロムソフトウェア</dd>
+                </div>
+                <div>
+                  <dt>性格診断</dt>
+                  <dd><a class="dads-link" href="https://www.16personalities.com/ja/infj%E5%9E%8B%E3%81%AE%E6%80%A7%E6%A0%BC" target="_blank" rel="noopener">INFJ型（提唱者）｜16Personalities<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></dd>
+                </div>
+              </dl>
+              <div class="block">
+                <h4 class="dads-heading" data-size="18">好きな言葉</h4>
+                <figure class="quote">
+                  <blockquote class="dads-blockquote">
+                    <p>やってみせ、言って聞かせて、させてみせ、ほめてやらねば、人は動かじ</p>
+                  </blockquote>
+                  <figcaption class="quote__source">― 山本五十六</figcaption>
+                </figure>
+                <figure class="quote">
+                  <blockquote class="dads-blockquote">
+                    <p>我が家の伝統でね、男は戦い方からメシの作り方まで一通りのことはこなせるようにしこまれるんだ</p>
+                  </blockquote>
+                  <figcaption class="quote__source">― トーマス・ベント（<cite>ロマンシング サ・ガ3</cite>）</figcaption>
+                </figure>
+              </div>
+            </div>
+          </details>
+
+          <details class="dads-accordion" id="work-style">
+            <summary class="dads-accordion__summary" id="work-style-summary">
+              <span class="dads-accordion__icon">
+                <svg class="dads-accordion__icon-svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.3 7.3L12 16L20.7 7.3" fill="none" stroke="currentcolor" stroke-width="2"/></svg>
+              </span>
+              <h3>仕事へ取り組む際のポイント</h3>
+            </summary>
+            <div class="dads-accordion__content">
           <div class="block">
             <h4 class="dads-heading" data-size="18">「伝わる」コミュニケーションを重視する</h4>
             <p>コミュニケーションは「伝わって初めて成立する」ものだと思っています。</p>
@@ -137,7 +268,32 @@
             <p>多少は冗談ですが、残りは比喩でもなんでも無く、日本語というものが得意でないと「情シス」という業務はなかなか務まらない、という思いが強いです。</p>
             <p>他者がいて初めて成立する情シスという仕事において、コミュニケーションの基盤となる日本語をちゃんと使える、ということは重要であると常に頭の片隅に置いて生きています。</p>
           </div>
+              <a class="dads-accordion__back-link" href="#work-style-summary">
+                <svg class="dads-accordion__back-link-icon" width="24" height="24" fill="none" aria-hidden="true"><path d="M6 7V14.5C6 16.8 8.2 19 10.5 19C12.8 19 15 16.8 15 14.5V6M10.709 9.7L15 5.414L19.291 9.7" stroke="currentcolor" stroke-width="2"/></svg>
+                「仕事へ取り組む際のポイント」の先頭に戻る
+              </a>
+            </div>
+          </details>
         </div>
+      </div>
+    </section>
+
+    <!-- 専門・得意領域 -->
+    <section class="section" id="specialty" aria-labelledby="specialty-heading">
+      <div class="container">
+        <hgroup class="dads-heading" data-size="32" data-chip>
+          <p class="dads-heading__shoulder">02 Specialty</p>
+          <h2 class="dads-heading__heading" id="specialty-heading">専門・得意領域</h2>
+        </hgroup>
+        <p>これまでの業務経験から、特に強みとしている領域です。</p>
+        <ul class="dads-list specialty-list" data-marker="number" data-spacing="8">
+          <li><span>01</span>SaaSの導入から定常運用・社内SaaSとの連携開発まで</li>
+          <li><span>02</span>社内ポータル・ナレッジ基盤の設計と全面整備</li>
+          <li><span>03</span>スクリプト開発とiPaaS・API連携による業務自動化・内製ツール開発</li>
+          <li><span>04</span>MDMの運用管理とデバイスライフサイクル管理</li>
+          <li><span>05</span>EDR・SSEの実運用、アラート対応・インシデント対応を含む情報セキュリティ運用と、規程整備・全社教育</li>
+          <li><span>06</span>アカウントライフサイクル管理</li>
+        </ul>
       </div>
     </section>
 
@@ -145,342 +301,271 @@
     <section class="section" id="career" aria-labelledby="career-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">Portfolio</p>
+          <p class="dads-heading__shoulder">03 Career</p>
           <h2 class="dads-heading__heading" id="career-heading">経歴・履歴</h2>
         </hgroup>
+        <p>正社員としての職歴と、副業（業務委託）の履歴を新しい順に掲載しています。</p>
 
-        <article class="career">
-          <h3 class="dads-heading" data-size="24" data-rule="2">Webプラットフォーマーの情シス（3社目）</h3>
-          <dl class="dads-description-list">
-            <div><dt>業種</dt><dd>Webプラットフォーム運営</dd></div>
-            <div><dt>所属期間</dt><dd>2023.07 〜 現在</dd></div>
-            <div><dt>職種</dt><dd>情シス（コーポレートエンジニア）・フルリモートワーク</dd></div>
-            <div><dt>役割</dt><dd>情シスチーム / リーダークラス</dd></div>
-            <div><dt>表彰歴</dt><dd>2024年 年間MVP受賞 部門賞（Notionワークスペース全面整備プロジェクトによる）</dd></div>
-          </dl>
-          <details class="dads-disclosure" open>
-            <summary class="dads-disclosure__summary" id="career-3-history">
-              <svg class="dads-disclosure__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="11" fill="currentcolor"/>
-                <circle class="dads-disclosure__icon-circle" cx="12" cy="12" r="8" fill="currentcolor"/>
-                <path class="dads-disclosure__icon-triangle" d="M17 10H7L12 15L17 10Z" fill="Canvas"/>
-              </svg>
-              3社目の業務履歴
-            </summary>
-            <div class="dads-disclosure__content">
-              <ul class="dads-list" data-spacing="4">
-                <li>SmartHR導入支援プロジェクト
-                  <ul class="dads-list" data-spacing="4">
-                    <li>HR部門に対する導入時支援</li>
-                    <li>定常運用テクニカルサポート</li>
-                    <li>社内SaaSとの連携機能開発</li>
-                  </ul>
-                </li>
-                <li>AKASHI導入支援
-                  <ul class="dads-list" data-spacing="4">
-                    <li>HR部門に対する導入時支援</li>
-                    <li>定常運用テクニカルサポート</li>
-                    <li>勤怠関連社内機能内製開発</li>
-                  </ul>
-                </li>
-                <li>Notion整備
-                  <ul class="dads-list" data-spacing="4">
-                    <li>社内ワークスペース整備
-                      <ul class="dads-list" data-spacing="4">
-                        <li>全社ポータルサイト全面再構築・改修</li>
-                        <li>ワークスペース構造全面改修</li>
-                        <li>社内ITポータルサイト全面改修</li>
-                        <li>ワークスペース運用改善、整備</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li>内製ITツール開発
-                  <ul class="dads-list" data-spacing="4">
-                    <li>SmartHR 従業員情報自動更新（GAS / Okta Workflows / WebAPI）</li>
-                    <li>AKASHI 勤怠情報Slack通知機能（GAS / WebAPI）</li>
-                    <li>Slack ゲストアカウント棚卸自動化（GAS / WebAPI）</li>
-                    <li>Zscaler Internet Access アカウント発行自動化（GAS / WebAPI）</li>
-                    <li>AI社内ヘルプデスクアプリ（Slack Automation / TypeScript（Deno SDK） / GAS / Dify / Notion / WebAPI）</li>
-                    <li>iPaaS（Zapier / Okta Workflows / ZohoFlow）によるSaaS連携自動化
-                      <ul class="dads-list" data-spacing="4">
-                        <li>入社時アカウント自動発行処理作成</li>
-                        <li>入社用備品発送依頼 自動化</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li>SaaS Management Platform導入
-                  <ul class="dads-list" data-spacing="4">
-                    <li>アカウントライフサイクル効率化</li>
-                  </ul>
-                </li>
-                <li>PCライフサイクル管理
-                  <ul class="dads-list" data-spacing="4">
-                    <li>調達PCモデル選定（Mac / Windows）</li>
-                    <li>デバイス管理・交換基準策定</li>
-                    <li>老朽・故障PCリプレース対応</li>
-                  </ul>
-                </li>
-                <li>MDM運用管理・移行対応
-                  <ul class="dads-list" data-spacing="4">
-                    <li>MobileIron運用管理</li>
-                    <li>MobileIron→Intune移行対応</li>
-                    <li>Intune運用管理（運用業務効率化、PowerShell作成）</li>
-                  </ul>
-                </li>
-                <li>情報セキュリティ対応
-                  <ul class="dads-list" data-spacing="4">
-                    <li>各種SaaS SSO化推進</li>
-                    <li>情報セキュリティ規程改訂</li>
-                    <li>セキュリティインシデント対応</li>
-                    <li>情報セキュリティ研修動画作成</li>
-                    <li>EDR アラート監視等 セキュリティ定常業務対応</li>
-                    <li>SSE 運用改善（アラート調整、ポリシー設定）</li>
-                  </ul>
-                </li>
-                <li>入社時ITオンボーディング対応
-                  <ul class="dads-list" data-spacing="4">
-                    <li>ITオンボーディングプロセス立案・実施</li>
-                    <li>ITオンボーディングプロセス効率化・省力化・手順化</li>
-                  </ul>
-                </li>
-                <li>バーチャル情シスマスコットキャラクター製作
-                  <ul class="dads-list" data-spacing="4">
-                    <li>3Dモデル製作</li>
-                    <li>動画教材、社内イベント動画製作</li>
-                    <li>操演（バ美肉）</li>
-                  </ul>
-                </li>
-                <li>ITヘルプデスク業務</li>
-                <li>SaaSアカウント管理</li>
-              </ul>
-              <a class="dads-disclosure__back-link" href="#career-3-history">
-                <svg class="dads-disclosure__back-link-icon" width="24" height="24" fill="none" aria-hidden="true"><path d="M6 7V14.5C6 16.8 8.2 19 10.5 19C12.8 19 15 16.8 15 14.5V6M10.709 9.7L15 5.414L19.291 9.7" stroke="currentcolor" stroke-width="2"/></svg>
-                「3社目の業務履歴」の先頭に戻る
-              </a>
-            </div>
-          </details>
-        </article>
+        <ul class="timeline">
+          <li class="timeline__item" data-current>
+            <article aria-labelledby="career-3-heading">
+              <hgroup class="dads-heading" data-size="24">
+                <p class="dads-heading__shoulder timeline__meta">2023.07 〜 現在 <span class="dads-chip-label" data-style="filled-1" data-color="purple">正社員</span></p>
+                <h3 class="dads-heading__heading" id="career-3-heading">Webプラットフォーマーの情シス（3社目）</h3>
+              </hgroup>
+              <dl class="dads-description-list">
+                <div><dt>業種</dt><dd>Webプラットフォーム運営</dd></div>
+                <div><dt>職種</dt><dd>情シス（コーポレートITエンジニア）・フルリモートワーク</dd></div>
+                <div><dt>役割</dt><dd>情シスチーム リーダー</dd></div>
+                <div><dt>表彰歴</dt><dd>2024年 年間MVP受賞 部門賞（Notionワークスペース全面整備プロジェクトによる）</dd></div>
+              </dl>
+              <details class="dads-disclosure">
+                <summary class="dads-disclosure__summary" id="career-3-history">
+                  <svg class="dads-disclosure__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="11" fill="currentcolor"/>
+                    <circle class="dads-disclosure__icon-circle" cx="12" cy="12" r="8" fill="currentcolor"/>
+                    <path class="dads-disclosure__icon-triangle" d="M17 10H7L12 15L17 10Z" fill="Canvas"/>
+                  </svg>
+                  3社目の業務履歴
+                </summary>
+                <div class="dads-disclosure__content">
+                  <dl class="dads-description-list history-list">
+                    <div>
+                      <dt>SaaS導入・運用</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>人事労務・勤怠SaaSの導入支援（HR部門向け）と定常運用のテクニカルサポート</li>
+                          <li>人事労務SaaSと社内各種SaaSの連携機能・勤怠関連機能などの内製開発</li>
+                          <li>SaaS管理基盤の導入によるアカウントライフサイクルの効率化</li>
+                        </ul>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>業務自動化・内製開発</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>従業員情報の自動更新、勤怠情報のチャット通知、ゲストアカウント棚卸、セキュリティサービスのアカウント発行などの自動化</li>
+                          <li>iPaaSによる入社時アカウント発行・備品発送依頼の自動化</li>
+                          <li>AI社内ヘルプデスクアプリの内製開発</li>
+                        </ul>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>社内基盤・ナレッジ</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>全社ポータル・社内ITポータルの全面再構築と、ワークスペース構造の全面改修・運用改善（2024年 年間MVP 部門賞）</li>
+                        </ul>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>デバイス管理</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>調達PCのモデル選定、デバイス管理・交換基準の策定、老朽・故障PCのリプレース</li>
+                          <li>MDMの移行（MobileIron→Intune）と、スクリプト作成による運用効率化</li>
+                        </ul>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>情報セキュリティ</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>各種SaaSのSSO化推進、情報セキュリティ規程の改訂、研修動画の作成</li>
+                          <li>EDR・SSEの運用（アラート監視・調整、ポリシー設定）とインシデント対応</li>
+                        </ul>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>その他</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>入社時ITオンボーディングの立案・効率化・手順化</li>
+                          <li>ITヘルプデスク、SaaSアカウント管理</li>
+                          <li>バーチャル情シスマスコットキャラクターの制作（3Dモデル・動画教材）と操演</li>
+                        </ul>
+                      </dd>
+                    </div>
+                  </dl>
+                  <a class="dads-disclosure__back-link" href="#career-3-history">
+                    <svg class="dads-disclosure__back-link-icon" width="24" height="24" fill="none" aria-hidden="true"><path d="M6 7V14.5C6 16.8 8.2 19 10.5 19C12.8 19 15 16.8 15 14.5V6M10.709 9.7L15 5.414L19.291 9.7" stroke="currentcolor" stroke-width="2"/></svg>
+                    「3社目の業務履歴」の先頭に戻る
+                  </a>
+                </div>
+              </details>
+            </article>
+          </li>
 
-        <article class="career">
-          <h3 class="dads-heading" data-size="24" data-rule="2">食品製造業の情シス（2社目）</h3>
-          <dl class="dads-description-list">
-            <div><dt>業種</dt><dd>食品製造業</dd></div>
-            <div><dt>所属期間</dt><dd>2019.01 〜 2023.06</dd></div>
-            <div><dt>職種</dt><dd>情シス（コーポレートエンジニア）</dd></div>
-            <div><dt>役割</dt><dd>情シスチーム / リーダー（部下1名）、メンバー</dd></div>
-            <div>
-              <dt>役職履歴</dt>
-              <dd>
-                <ul class="dads-list" data-spacing="4">
-                  <li>2022.08 〜 2023.06：情シスチームリーダー（課長職）</li>
-                  <li>2021.03 〜 2022.08：ひとり情シス</li>
-                  <li>2019.01 〜 2021.03：情シスチームメンバー</li>
-                </ul>
-              </dd>
-            </div>
-          </dl>
-          <details class="dads-disclosure">
-            <summary class="dads-disclosure__summary" id="career-2-history">
-              <svg class="dads-disclosure__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="11" fill="currentcolor"/>
-                <circle class="dads-disclosure__icon-circle" cx="12" cy="12" r="8" fill="currentcolor"/>
-                <path class="dads-disclosure__icon-triangle" d="M17 10H7L12 15L17 10Z" fill="Canvas"/>
-              </svg>
-              2社目の業務履歴
-            </summary>
-            <div class="dads-disclosure__content">
-              <ul class="dads-list" data-spacing="4">
-                <li>PCのライフサイクル管理
-                  <ul class="dads-list" data-spacing="4">
-                    <li>選定、調達、キッティング、入替え、廃棄、売却</li>
-                    <li>レンタル契約への切り替え</li>
-                    <li>キッティング半自動化による業務効率改善（Bat、PowerShell、Winget）</li>
-                  </ul>
-                </li>
-                <li>複合機管理
-                  <ul class="dads-list" data-spacing="4">
-                    <li>機種選定、導入、入替え、管理</li>
-                  </ul>
-                </li>
-                <li>社内ネットワーク管理
-                  <ul class="dads-list" data-spacing="4">
-                    <li>運用、管理、機器更新</li>
-                  </ul>
-                </li>
-                <li>ヘルプデスク業務</li>
-                <li>オンプレミス基幹業務システム運用、管理
-                  <ul class="dads-list" data-spacing="4">
-                    <li>ベンダーコントロール</li>
-                    <li>改修のための要件取りまとめ</li>
-                    <li>各種法改正対応</li>
-                    <li>ユーザーサポート等定常運用</li>
-                  </ul>
-                </li>
-                <li>オンプレミスWindows Server運用、管理
-                  <ul class="dads-list" data-spacing="4">
-                    <li>サーバーリプレース</li>
-                  </ul>
-                </li>
-                <li>Active Directory運用管理
-                  <ul class="dads-list" data-spacing="4">
-                    <li>GPOによるIE廃止対策（IEモードポリシー作成）</li>
-                    <li>Windows 11アップグレード抑止対応</li>
-                  </ul>
-                </li>
-                <li>Azure AD全般運用管理
-                  <ul class="dads-list" data-spacing="4">
-                    <li>ID管理、グループ管理</li>
-                    <li>監査ログチェックなどコンプライアンス対応</li>
-                    <li>SAML認証によるSSO導入（IdP管理）</li>
-                  </ul>
-                </li>
-                <li>Intune導入
-                  <ul class="dads-list" data-spacing="4">
-                    <li>少数試験導入・運用</li>
-                  </ul>
-                </li>
-                <li>Defender for Business導入
-                  <ul class="dads-list" data-spacing="4">
-                    <li>少数試験導入・運用</li>
-                  </ul>
-                </li>
-                <li>Teams導入、運用、普及促進</li>
-                <li>Power Automateによる各種業務効率改善
-                  <ul class="dads-list" data-spacing="4">
-                    <li>ヘルプデスク業務管理ツール構築</li>
-                    <li>体調チェックツール構築（新型コロナウイルス対策）</li>
-                    <li>その他小規模業務ツール</li>
-                  </ul>
-                </li>
-                <li>SharePoint Onlineによる社内ポータルサイト再構築</li>
-                <li>情報セキュリティポリシー策定
-                  <ul class="dads-list" data-spacing="4">
-                    <li>情報セキュリティ規程の起案、制定、改訂・改版</li>
-                    <li>全社情報セキュリティ教育実施
-                      <ul class="dads-list" data-spacing="4">
-                        <li>定期全社教育（講師）</li>
-                        <li>入社時教育（講師）</li>
-                      </ul>
-                    </li>
-                    <li>情報セキュリティハンドブック・在宅勤務ハンドブックの作成、配布</li>
-                  </ul>
-                </li>
-                <li>ESET 選定、導入、運用、管理</li>
-                <li>Movable Type クラウド版導入
-                  <ul class="dads-list" data-spacing="4">
-                    <li>初期契約、環境設定</li>
-                    <li>一部コンテンツの再構築</li>
-                    <li>Webデザイン業者への技術対応（SSL設定等）</li>
-                  </ul>
-                </li>
-                <li>ジョブカンワークフロー導入、運用</li>
-                <li>人事奉行、就業奉行導入・運用
-                  <ul class="dads-list" data-spacing="4">
-                    <li>人事労務担当者へのユーザートレーニング、運用移管</li>
-                    <li>社内ユーザーへの運用サポート、QA対応</li>
-                  </ul>
-                </li>
-                <li>Autoジョブ名人（デスクトップ型RPA）による定型業務自動化</li>
-                <li>PR用YouTube動画作成
-                  <ul class="dads-list" data-spacing="4">
-                    <li>脚本、主演、撮影、編集、公開</li>
-                  </ul>
-                </li>
-                <li>アルキラープラス導入
-                  <ul class="dads-list" data-spacing="4">
-                    <li>サービス選定、導入</li>
-                    <li>初期セットアップ、担当者へのユーザートレーニング、運用移管</li>
-                  </ul>
-                </li>
-                <li>IT導入補助金対応
-                  <ul class="dads-list" data-spacing="4">
-                    <li>申請提出、事務局対応</li>
-                    <li>年次経過報告</li>
-                  </ul>
-                </li>
-                <li>育児と働き方関連
-                  <ul class="dads-list" data-spacing="4">
-                    <li>一人情シス状態での育児休業取得</li>
-                    <li>一人情シス状態での育児時短勤務</li>
-                  </ul>
-                </li>
-              </ul>
-              <a class="dads-disclosure__back-link" href="#career-2-history">
-                <svg class="dads-disclosure__back-link-icon" width="24" height="24" fill="none" aria-hidden="true"><path d="M6 7V14.5C6 16.8 8.2 19 10.5 19C12.8 19 15 16.8 15 14.5V6M10.709 9.7L15 5.414L19.291 9.7" stroke="currentcolor" stroke-width="2"/></svg>
-                「2社目の業務履歴」の先頭に戻る
-              </a>
-            </div>
-          </details>
-        </article>
+          <li class="timeline__item" data-current>
+            <article aria-labelledby="career-side-2-heading">
+              <hgroup class="dads-heading" data-size="24">
+                <p class="dads-heading__shoulder timeline__meta">2026.03 〜 現在 <span class="dads-chip-label" data-style="filled-1" data-color="yellow">副業</span></p>
+                <h3 class="dads-heading__heading" id="career-side-2-heading">情報システムコンサルティング会社</h3>
+              </hgroup>
+              <dl class="dads-description-list">
+                <div><dt>役割</dt><dd>コーポレートITエキスパート</dd></div>
+                <div><dt>業務内容</dt><dd>コーポレートIT領域のコンサルティング業務</dd></div>
+              </dl>
+            </article>
+          </li>
 
-        <article class="career">
-          <h3 class="dads-heading" data-size="24" data-rule="2">SIerのシステムエンジニア（1社目）</h3>
-          <dl class="dads-description-list">
-            <div><dt>業種</dt><dd>システムインテグレーター（ソフトウェア開発、運用、保守）</dd></div>
-            <div><dt>所属期間</dt><dd>2005.04 〜 2018.12</dd></div>
-            <div><dt>職種</dt><dd>システムエンジニア</dd></div>
-            <div><dt>役割</dt><dd>プロジェクトメンバー、プロジェクトリーダー</dd></div>
-          </dl>
-          <details class="dads-disclosure">
-            <summary class="dads-disclosure__summary" id="career-1-history">
-              <svg class="dads-disclosure__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="11" fill="currentcolor"/>
-                <circle class="dads-disclosure__icon-circle" cx="12" cy="12" r="8" fill="currentcolor"/>
-                <path class="dads-disclosure__icon-triangle" d="M17 10H7L12 15L17 10Z" fill="Canvas"/>
-              </svg>
-              1社目の業務履歴
-            </summary>
-            <div class="dads-disclosure__content">
-              <ul class="dads-list" data-spacing="4">
-                <li>大手エレクトロニクスメーカーグループ会社 客先常駐 / 経理システム運用保守プロジェクト
-                  <ul class="dads-list" data-spacing="4">
-                    <li>システムの定常監視</li>
-                    <li>メンテナンス、改修</li>
-                    <li>決算時顧客サポート</li>
-                    <li>運用ヘルプデスク</li>
-                    <li>顧客部署のHP作成、メンテナンス</li>
-                    <li>システムへの要望の対応</li>
-                    <li>バーコードリーダーリプレース（機器選定）</li>
-                    <li>顧客部門サーバーの運用保守</li>
-                  </ul>
-                </li>
-                <li>電力会社情報子会社 客先常駐 / 設備管理システム改修プロジェクト
-                  <ul class="dads-list" data-spacing="4">
-                    <li>プラント管理システムの改修</li>
-                  </ul>
-                </li>
-                <li>自社プロダクト / ERPパッケージアドオン開発プロジェクト
-                  <ul class="dads-list" data-spacing="4">
-                    <li>入退室管理アドオンの開発</li>
-                  </ul>
-                </li>
-                <li>自社プロダクト / 清掃業務管理パッケージ開発プロジェクト
-                  <ul class="dads-list" data-spacing="4">
-                    <li>スケジューリング機能、画面UIなどを担当</li>
-                  </ul>
-                </li>
-                <li>自社プロダクト / 保守開発プロジェクト
-                  <ul class="dads-list" data-spacing="4">
-                    <li>通年の法令改正対応改修
-                      <ul class="dads-list" data-spacing="4">
-                        <li>マイナンバー対応に伴う大規模改修</li>
-                        <li>提出用申告書の様式変更対応</li>
-                      </ul>
-                    </li>
-                    <li>恒常的なシステム機能改修</li>
-                    <li>システム不具合対応</li>
-                  </ul>
-                </li>
-              </ul>
-              <a class="dads-disclosure__back-link" href="#career-1-history">
-                <svg class="dads-disclosure__back-link-icon" width="24" height="24" fill="none" aria-hidden="true"><path d="M6 7V14.5C6 16.8 8.2 19 10.5 19C12.8 19 15 16.8 15 14.5V6M10.709 9.7L15 5.414L19.291 9.7" stroke="currentcolor" stroke-width="2"/></svg>
-                「1社目の業務履歴」の先頭に戻る
-              </a>
-            </div>
-          </details>
-        </article>
+          <li class="timeline__item">
+            <article aria-labelledby="career-2-heading">
+              <hgroup class="dads-heading" data-size="24">
+                <p class="dads-heading__shoulder timeline__meta">2019.01 〜 2023.06 <span class="dads-chip-label" data-style="filled-1" data-color="purple">正社員</span></p>
+                <h3 class="dads-heading__heading" id="career-2-heading">食品製造業の情シス（2社目）</h3>
+              </hgroup>
+              <dl class="dads-description-list">
+                <div><dt>業種</dt><dd>食品製造業</dd></div>
+                <div><dt>職種</dt><dd>情シス（コーポレートITエンジニア）</dd></div>
+                <div><dt>最終役職</dt><dd>情シスチームリーダー（課長職）</dd></div>
+              </dl>
+              <details class="dads-disclosure">
+                <summary class="dads-disclosure__summary" id="career-2-history">
+                  <svg class="dads-disclosure__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="11" fill="currentcolor"/>
+                    <circle class="dads-disclosure__icon-circle" cx="12" cy="12" r="8" fill="currentcolor"/>
+                    <path class="dads-disclosure__icon-triangle" d="M17 10H7L12 15L17 10Z" fill="Canvas"/>
+                  </svg>
+                  2社目の業務履歴
+                </summary>
+                <div class="dads-disclosure__content">
+                  <dl class="dads-description-list history-list">
+                    <div>
+                      <dt>デバイス・インフラ管理</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>PCのライフサイクル管理（選定・調達・キッティング・入替え・廃棄・売却）とレンタル契約への切り替え</li>
+                          <li>スクリプトによるキッティングの半自動化</li>
+                          <li>複合機の機種選定・導入・管理、社内ネットワークの運用・機器更新、オンプレミスサーバーの運用・リプレース</li>
+                        </ul>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>ID管理・情報セキュリティ</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>オンプレミス・クラウドのディレクトリサービス運用（ID・グループ管理、監査ログ確認、SAMLによるSSO導入）</li>
+                          <li>グループポリシーによるIE廃止対策・OSアップグレード抑止</li>
+                          <li>エンドポイントセキュリティ製品の選定・導入・運用と、MDM・EDRの試験導入</li>
+                          <li>情報セキュリティ規程の起案・制定・改訂と、情報セキュリティ・在宅勤務ハンドブックの作成</li>
+                          <li>全社定期教育・入社時教育の講師</li>
+                        </ul>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>業務システム・SaaS導入</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>オンプレミス基幹業務システムの運用（ベンダーコントロール、改修要件の取りまとめ、法改正対応、ユーザーサポート）</li>
+                          <li>人事・就業システム、ワークフロー、アルコールチェックサービスの選定・導入と、担当部門へのトレーニング・運用移管</li>
+                          <li>コラボレーションツールの導入・普及促進と、社内ポータルサイトの再構築</li>
+                          <li>コーポレートサイトCMSのクラウド版導入（環境設定、コンテンツ再構築、制作会社への技術対応）</li>
+                        </ul>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>業務自動化</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>ローコードツールによるヘルプデスク管理・体調チェック（新型コロナウイルス対策）などの業務ツール構築</li>
+                          <li>デスクトップ型RPAによる定型業務の自動化</li>
+                        </ul>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>その他</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>ヘルプデスク業務</li>
+                          <li>IT導入補助金の申請・事務局対応・年次経過報告</li>
+                          <li>PR用YouTube動画の制作（脚本・主演・撮影・編集・公開）</li>
+                          <li>ひとり情シス体制での育児休業取得・育児時短勤務</li>
+                        </ul>
+                      </dd>
+                    </div>
+                  </dl>
+                  <a class="dads-disclosure__back-link" href="#career-2-history">
+                    <svg class="dads-disclosure__back-link-icon" width="24" height="24" fill="none" aria-hidden="true"><path d="M6 7V14.5C6 16.8 8.2 19 10.5 19C12.8 19 15 16.8 15 14.5V6M10.709 9.7L15 5.414L19.291 9.7" stroke="currentcolor" stroke-width="2"/></svg>
+                    「2社目の業務履歴」の先頭に戻る
+                  </a>
+                </div>
+              </details>
+            </article>
+          </li>
+
+          <li class="timeline__item">
+            <article aria-labelledby="career-side-1-heading">
+              <hgroup class="dads-heading" data-size="24">
+                <p class="dads-heading__shoulder timeline__meta">2023.02（単月） <span class="dads-chip-label" data-style="filled-1" data-color="yellow">副業</span></p>
+                <h3 class="dads-heading__heading" id="career-side-1-heading">情報システムサービス コンサルティング会社</h3>
+              </hgroup>
+              <dl class="dads-description-list">
+                <div><dt>役割</dt><dd>テクニカルサポートスタッフ</dd></div>
+                <div><dt>業務内容</dt><dd>ヘルプデスク業務、ヘルプデスク業務効率化</dd></div>
+              </dl>
+            </article>
+          </li>
+
+          <li class="timeline__item">
+            <article aria-labelledby="career-1-heading">
+              <hgroup class="dads-heading" data-size="24">
+                <p class="dads-heading__shoulder timeline__meta">2005.04 〜 2018.12 <span class="dads-chip-label" data-style="filled-1" data-color="purple">正社員</span></p>
+                <h3 class="dads-heading__heading" id="career-1-heading">SIerのシステムエンジニア（1社目）</h3>
+              </hgroup>
+              <dl class="dads-description-list">
+                <div><dt>業種</dt><dd>システムインテグレーター（ソフトウェア開発、運用、保守）</dd></div>
+                <div><dt>職種</dt><dd>システムエンジニア</dd></div>
+                <div><dt>役割</dt><dd>プロジェクトメンバー、プロジェクトリーダー</dd></div>
+              </dl>
+              <details class="dads-disclosure">
+                <summary class="dads-disclosure__summary" id="career-1-history">
+                  <svg class="dads-disclosure__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="11" fill="currentcolor"/>
+                    <circle class="dads-disclosure__icon-circle" cx="12" cy="12" r="8" fill="currentcolor"/>
+                    <path class="dads-disclosure__icon-triangle" d="M17 10H7L12 15L17 10Z" fill="Canvas"/>
+                  </svg>
+                  1社目の業務履歴
+                </summary>
+                <div class="dads-disclosure__content">
+                  <dl class="dads-description-list history-list">
+                    <div>
+                      <dt>客先常駐プロジェクト</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>大手エレクトロニクスメーカーグループ会社：経理システムの運用保守（定常監視、改修、決算時サポート、運用ヘルプデスク、顧客部門サーバーの運用保守、機器選定など）</li>
+                          <li>電力会社情報子会社：プラント設備管理システムの改修</li>
+                        </ul>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>自社プロダクト開発</dt>
+                      <dd>
+                        <ul class="dads-list" data-spacing="4">
+                          <li>ERPパッケージのアドオン（入退室管理）開発</li>
+                          <li>清掃業務管理パッケージの開発（スケジューリング機能・画面UIを担当）</li>
+                          <li>HR・会計パッケージの保守開発（マイナンバー対応の大規模改修・申告書の様式変更などの法令改正対応、機能改修、不具合対応）</li>
+                        </ul>
+                      </dd>
+                    </div>
+                  </dl>
+                  <a class="dads-disclosure__back-link" href="#career-1-history">
+                    <svg class="dads-disclosure__back-link-icon" width="24" height="24" fill="none" aria-hidden="true"><path d="M6 7V14.5C6 16.8 8.2 19 10.5 19C12.8 19 15 16.8 15 14.5V6M10.709 9.7L15 5.414L19.291 9.7" stroke="currentcolor" stroke-width="2"/></svg>
+                    「1社目の業務履歴」の先頭に戻る
+                  </a>
+                </div>
+              </details>
+            </article>
+          </li>
+        </ul>
+
+        <div class="subsection" id="side-job">
+          <hgroup class="dads-heading" data-size="24" data-rule="2">
+            <p class="dads-heading__shoulder timeline__meta"><span class="dads-chip-label" data-style="filled-1" data-color="yellow">副業</span></p>
+            <h3 class="dads-heading__heading">スポットコンサルティング実績</h3>
+          </hgroup>
+          <p>SaaSサービスや食品業界向け販売管理業務などに関するアドバイザリーを、計4件実施しました。</p>
+        </div>
       </div>
     </section>
 
@@ -488,105 +573,209 @@
     <section class="section" id="skills" aria-labelledby="skills-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">Skills</p>
+          <p class="dads-heading__shoulder">04 Skills</p>
           <h2 class="dads-heading__heading" id="skills-heading">ITサービス・ソフトウェア・言語</h2>
         </hgroup>
-        <p>これまでに経験のあるITサービス・ソフトウェア・言語の一覧です。</p>
+        <p>業務で扱ってきた主なITサービス・ソフトウェア・言語を領域別にまとめています。</p>
 
-        <div class="scroll-shadow" tabindex="0" role="region" aria-labelledby="skills-caption">
-          <div class="dads-table skills-table" data-size="dense">
-            <table class="dads-table__table" data-cell-border="bottom" data-width="full">
-              <caption class="dads-table__caption" id="skills-caption">経験のあるもの（すべて）</caption>
-              <thead>
-                <tr>
-                  <th class="dads-table__col-header" scope="col">名前</th>
-                  <th class="dads-table__col-header" scope="col">ジャンル</th>
-                  <th class="dads-table__col-header" scope="col">環境</th>
-                  <th class="dads-table__col-header" scope="col">フェーズ</th>
-                  <th class="dads-table__col-header" scope="col">補足</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><th scope="row">Microsoft 365 Business</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">グループウェア</span></td><td>法人</td><td>構築・管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Google Workspace</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">グループウェア</span></td><td>法人</td><td>管理・運用・利用</td><td>Enterprise Standard</td></tr>
-                <tr><th scope="row">Looker Studio</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">グループウェア</span></td><td>法人</td><td>利用</td><td></td></tr>
-                <tr><th scope="row">Okta</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">IdP</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Entra</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">IdP</span></td><td>法人</td><td>管理・運用・利用</td><td>Free / P1</td></tr>
-                <tr><th scope="row">Slack</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コミュニケーション</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Notion</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コミュニケーション</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">SmartHR</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>運用・利用・開発</td><td></td></tr>
-                <tr><th scope="row">AKASHI</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>運用・利用・開発</td><td></td></tr>
-                <tr><th scope="row">HRMOS採用</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>運用・利用</td><td></td></tr>
-                <tr><th scope="row">人事奉行 11i</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>構築・管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">就業奉行 11i</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>構築・管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">奉行Edgeクラウド</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">ジョブカンワークフロー</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>導入・構築・管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">CloudSign</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">楽楽販売</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">楽楽精算</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>利用</td><td></td></tr>
-                <tr><th scope="row">安否確認サービス2</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">安心LifeMail</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>利用</td><td></td></tr>
-                <tr><th scope="row">アルキラープラス</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>導入・構築・管理</td><td></td></tr>
-                <tr><th scope="row">ラクロー</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">コーポレート</span></td><td>法人</td><td>PoC</td><td></td></tr>
-                <tr><th scope="row">ESET Endpoint Security</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">セキュリティ</span></td><td>法人</td><td>導入・構築・管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Cisco Secure Endpoint</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">セキュリティ</span></td><td>法人</td><td>運用・利用</td><td></td></tr>
-                <tr><th scope="row">1Password</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">セキュリティ</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Zscaler Internet Access</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">セキュリティ</span></td><td>法人</td><td>管理・運用・利用・開発</td><td></td></tr>
-                <tr><th scope="row">CrowdStrike Falcon</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">セキュリティ</span></td><td>法人</td><td>運用・利用</td><td></td></tr>
-                <tr><th scope="row">Intune</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">MDM</span></td><td>法人</td><td>導入・構築・管理・運用</td><td></td></tr>
-                <tr><th scope="row">MobileIron</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">MDM</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Zapier</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">iPaaS</span></td><td>法人</td><td>導入・構築・管理・運用・利用・開発</td><td></td></tr>
-                <tr><th scope="row">Zoho Flow</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">iPaaS</span></td><td>法人</td><td>管理・運用・利用・開発</td><td></td></tr>
-                <tr><th scope="row">Power Automate</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">iPaaS</span></td><td>法人</td><td>構築・管理・運用・利用・開発</td><td></td></tr>
-                <tr><th scope="row">Google Apps Script</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>管理・運用・開発</td><td></td></tr>
-                <tr><th scope="row">Power Query</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>管理・運用・開発</td><td></td></tr>
-                <tr><th scope="row">Power Apps</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>管理・運用・開発</td><td></td></tr>
-                <tr><th scope="row">VBA</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>管理・運用・開発</td><td></td></tr>
-                <tr><th scope="row">Active Server Pages</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発・運用</td><td></td></tr>
-                <tr><th scope="row">VBScript</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発・運用</td><td></td></tr>
-                <tr><th scope="row">JavaScript</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発・運用</td><td></td></tr>
-                <tr><th scope="row">VB.NET</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発・運用</td><td></td></tr>
-                <tr><th scope="row">HTML/CSS</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発・運用</td><td></td></tr>
-                <tr><th scope="row">Oracle Forms/Reports</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
-                <tr><th scope="row">Transact-SQL</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
-                <tr><th scope="row">PL/SQL</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
-                <tr><th scope="row">TypeScript</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
-                <tr><th scope="row">Google clasp</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>利用</td><td>オンラインエディタ→ローカルエディタ&amp;GitHub環境への移行を実施</td></tr>
-                <tr><th scope="row">Visual Studio Code</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>利用</td><td></td></tr>
-                <tr><th scope="row">Cursor</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>構築・管理・運用・利用</td><td>チームプランを運用・管理</td></tr>
-                <tr><th scope="row">GitHub</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>運用・利用・開発</td><td>チームのリポジトリを作成・管理</td></tr>
-                <tr><th scope="row">Deno（Slack SDK）</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
-                <tr><th scope="row">Homebrew</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
-                <tr><th scope="row">HubSpot</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">SFA/MA</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
-                <tr><th scope="row">formrun</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">SFA/MA</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
-                <tr><th scope="row">Marketo</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">SFA/MA</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
-                <tr><th scope="row">KARTE</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">SFA/MA</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
-                <tr><th scope="row">Autoジョブ名人</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">RPA</span></td><td>法人</td><td>導入・構築・管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Movable Type クラウド版</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">CMS</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
-                <tr><th scope="row">Spealy</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">CMS</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
-                <tr><th scope="row">Adobe Creative Cloud</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Figma</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">FigJam</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">PowerDirector 16</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>法人</td><td>運用・利用</td><td></td></tr>
-                <tr><th scope="row">VRoid Studio</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>法人</td><td>利用</td><td></td></tr>
-                <tr><th scope="row">Windows</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">ハードウェア</span></td><td>法人</td><td>導入・構築・管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Mac</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">ハードウェア</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">iOS</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">ハードウェア</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Android</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">ハードウェア</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">ラベルプリンター</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">ハードウェア</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
-                <tr><th scope="row">オフィス複合機</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">ハードウェア</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
-                <tr><th scope="row">Asana</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">タスク管理</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Zendesk</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">ヘルプデスク</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
-                <tr><th scope="row">Dify</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">AI</span></td><td>法人</td><td>利用・開発・運用</td><td></td></tr>
-                <tr><th scope="row">マネーフォワード Admina</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">SMP</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
-                <tr><th scope="row">Bitwarden</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">セキュリティ</span></td><td>個人</td><td>個人利用</td><td></td></tr>
-                <tr><th scope="row">IFTTT</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">iPaaS</span></td><td>個人</td><td>個人利用</td><td></td></tr>
-                <tr><th scope="row">DaVinci Resolve</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>個人</td><td>個人利用</td><td></td></tr>
-                <tr><th scope="row">NAS</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">ハードウェア</span></td><td>個人</td><td>個人利用</td><td></td></tr>
-              </tbody>
-            </table>
+        <ul class="skill-groups">
+          <li class="skill-card" data-color="blue">
+            <h3 class="dads-heading" data-size="20">コラボレーション</h3>
+            <ul class="chips">
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Microsoft 365 Business</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Google Workspace</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Slack</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Notion</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Asana</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="blue">Zendesk</span></li>
+            </ul>
+          </li>
+          <li class="skill-card" data-color="red">
+            <h3 class="dads-heading" data-size="20">ID管理・セキュリティ</h3>
+            <ul class="chips">
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="red">Okta</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="red">Entra</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="red">Zscaler Internet Access</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="red">CrowdStrike Falcon</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="red">Cisco Secure Endpoint</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="red">ESET Endpoint Security</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="red">1Password</span></li>
+            </ul>
+          </li>
+          <li class="skill-card" data-color="cyan">
+            <h3 class="dads-heading" data-size="20">エンドポイント・デバイス</h3>
+            <ul class="chips">
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="cyan">Intune</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="cyan">MobileIron</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="cyan">Iru</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="cyan">Windows</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="cyan">Mac</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="cyan">iOS</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="cyan">Android</span></li>
+            </ul>
+          </li>
+          <li class="skill-card" data-color="green">
+            <h3 class="dads-heading" data-size="20">コーポレートSaaS</h3>
+            <ul class="chips">
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="green">SmartHR</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="green">マネーフォワード勤怠プラス</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="green">HRMOS採用</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="green">奉行シリーズ</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="green">ジョブカンワークフロー</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="green">CloudSign</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="green">マネーフォワード Admina</span></li>
+            </ul>
+          </li>
+          <li class="skill-card" data-color="orange">
+            <h3 class="dads-heading" data-size="20">自動化・AI</h3>
+            <ul class="chips">
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="orange">Zapier</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="orange">Zoho Flow</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="orange">Power Automate</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="orange">Power Apps</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="orange">Dify</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="orange">Autoジョブ名人</span></li>
+            </ul>
+          </li>
+          <li class="skill-card" data-color="purple">
+            <h3 class="dads-heading" data-size="20">開発言語・環境</h3>
+            <ul class="chips">
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="purple">Google Apps Script</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="purple">TypeScript</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="purple">JavaScript</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="purple">VBA</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="purple">SQL（T-SQL / PL/SQL）</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="purple">GitHub</span></li>
+              <li><span class="dads-chip-label" data-style="filled-1" data-color="purple">Cursor</span></li>
+            </ul>
+          </li>
+        </ul>
+
+        <details class="dads-disclosure skills-all">
+          <summary class="dads-disclosure__summary" id="skills-all-summary">
+            <svg class="dads-disclosure__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="11" fill="currentcolor"/>
+              <circle class="dads-disclosure__icon-circle" cx="12" cy="12" r="8" fill="currentcolor"/>
+              <path class="dads-disclosure__icon-triangle" d="M17 10H7L12 15L17 10Z" fill="Canvas"/>
+            </svg>
+            経験のあるITサービス・ソフトウェア・言語の一覧（全77件）
+          </summary>
+          <div class="dads-disclosure__content">
+            <div class="skill-filter" hidden>
+              <p class="skill-filter__label" id="skill-filter-label">領域で絞り込み</p>
+              <ul class="skill-filter__list" aria-labelledby="skill-filter-label">
+                <li><button class="dads-button" type="button" data-size="sm" data-type="solid-fill" data-filter="all" aria-pressed="true">すべて</button></li>
+                <li><button class="dads-button" type="button" data-size="sm" data-type="outline" data-filter="blue" aria-pressed="false"><span class="skill-filter__swatch" data-color="blue" aria-hidden="true"></span>コラボレーション</button></li>
+                <li><button class="dads-button" type="button" data-size="sm" data-type="outline" data-filter="red" aria-pressed="false"><span class="skill-filter__swatch" data-color="red" aria-hidden="true"></span>ID管理・セキュリティ</button></li>
+                <li><button class="dads-button" type="button" data-size="sm" data-type="outline" data-filter="cyan" aria-pressed="false"><span class="skill-filter__swatch" data-color="cyan" aria-hidden="true"></span>エンドポイント・デバイス</button></li>
+                <li><button class="dads-button" type="button" data-size="sm" data-type="outline" data-filter="green" aria-pressed="false"><span class="skill-filter__swatch" data-color="green" aria-hidden="true"></span>コーポレートSaaS</button></li>
+                <li><button class="dads-button" type="button" data-size="sm" data-type="outline" data-filter="orange" aria-pressed="false"><span class="skill-filter__swatch" data-color="orange" aria-hidden="true"></span>自動化・AI</button></li>
+                <li><button class="dads-button" type="button" data-size="sm" data-type="outline" data-filter="purple" aria-pressed="false"><span class="skill-filter__swatch" data-color="purple" aria-hidden="true"></span>開発言語・環境</button></li>
+                <li><button class="dads-button" type="button" data-size="sm" data-type="outline" data-filter="gray" aria-pressed="false"><span class="skill-filter__swatch" data-color="gray" aria-hidden="true"></span>その他</button></li>
+              </ul>
+              <p class="skill-filter__status" role="status"></p>
+            </div>
+            <div class="scroll-shadow" tabindex="0" role="region" aria-labelledby="skills-caption">
+              <div class="dads-table skills-table" data-size="dense">
+                <table class="dads-table__table" data-cell-border="bottom" data-width="full">
+                  <caption class="dads-table__caption" id="skills-caption">経験のあるITサービス・ソフトウェア・言語</caption>
+                  <thead>
+                    <tr>
+                      <th class="dads-table__col-header" scope="col">名前</th>
+                      <th class="dads-table__col-header" scope="col">ジャンル</th>
+                      <th class="dads-table__col-header" scope="col">環境</th>
+                      <th class="dads-table__col-header" scope="col">フェーズ</th>
+                      <th class="dads-table__col-header" scope="col">補足</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><th scope="row">Microsoft 365 Business</th><td><span class="dads-chip-label" data-style="outlined" data-color="blue">グループウェア</span></td><td>法人</td><td>構築・管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Google Workspace</th><td><span class="dads-chip-label" data-style="outlined" data-color="blue">グループウェア</span></td><td>法人</td><td>管理・運用・利用</td><td>Enterprise Standard</td></tr>
+                    <tr><th scope="row">Looker Studio</th><td><span class="dads-chip-label" data-style="outlined" data-color="blue">グループウェア</span></td><td>法人</td><td>利用</td><td></td></tr>
+                    <tr><th scope="row">Okta</th><td><span class="dads-chip-label" data-style="outlined" data-color="red">IdP</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Entra</th><td><span class="dads-chip-label" data-style="outlined" data-color="red">IdP</span></td><td>法人</td><td>管理・運用・利用</td><td>Free / P1</td></tr>
+                    <tr><th scope="row">Slack</th><td><span class="dads-chip-label" data-style="outlined" data-color="blue">コミュニケーション</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Notion</th><td><span class="dads-chip-label" data-style="outlined" data-color="blue">コミュニケーション</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">SmartHR</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>運用・利用・開発</td><td></td></tr>
+                    <tr><th scope="row">マネーフォワード勤怠プラス</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>運用・利用・開発</td><td>旧称：AKASHI</td></tr>
+                    <tr><th scope="row">HRMOS採用</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>運用・利用</td><td></td></tr>
+                    <tr><th scope="row">人事奉行 11i</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>構築・管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">就業奉行 11i</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>構築・管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">奉行Edgeクラウド</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">ジョブカンワークフロー</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>導入・構築・管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">CloudSign</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">楽楽販売</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">楽楽精算</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>利用</td><td></td></tr>
+                    <tr><th scope="row">安否確認サービス2</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">安心LifeMail</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>利用</td><td></td></tr>
+                    <tr><th scope="row">アルキラープラス</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>導入・構築・管理</td><td></td></tr>
+                    <tr><th scope="row">ラクロー</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">コーポレート</span></td><td>法人</td><td>PoC</td><td></td></tr>
+                    <tr><th scope="row">ESET Endpoint Security</th><td><span class="dads-chip-label" data-style="outlined" data-color="red">セキュリティ</span></td><td>法人</td><td>導入・構築・管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Cisco Secure Endpoint</th><td><span class="dads-chip-label" data-style="outlined" data-color="red">セキュリティ</span></td><td>法人</td><td>運用・利用</td><td></td></tr>
+                    <tr><th scope="row">1Password</th><td><span class="dads-chip-label" data-style="outlined" data-color="red">セキュリティ</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Zscaler Internet Access</th><td><span class="dads-chip-label" data-style="outlined" data-color="red">セキュリティ</span></td><td>法人</td><td>管理・運用・利用・開発</td><td></td></tr>
+                    <tr><th scope="row">CrowdStrike Falcon</th><td><span class="dads-chip-label" data-style="outlined" data-color="red">セキュリティ</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Intune</th><td><span class="dads-chip-label" data-style="outlined" data-color="cyan">MDM</span></td><td>法人</td><td>導入・構築・管理・運用</td><td></td></tr>
+                    <tr><th scope="row">MobileIron</th><td><span class="dads-chip-label" data-style="outlined" data-color="cyan">MDM</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Iru</th><td><span class="dads-chip-label" data-style="outlined" data-color="cyan">MDM</span></td><td>法人</td><td>管理・運用・利用</td><td>旧称：Kandji</td></tr>
+                    <tr><th scope="row">Zapier</th><td><span class="dads-chip-label" data-style="outlined" data-color="orange">iPaaS</span></td><td>法人</td><td>導入・構築・管理・運用・利用・開発</td><td></td></tr>
+                    <tr><th scope="row">Zoho Flow</th><td><span class="dads-chip-label" data-style="outlined" data-color="orange">iPaaS</span></td><td>法人</td><td>管理・運用・利用・開発</td><td></td></tr>
+                    <tr><th scope="row">Power Automate</th><td><span class="dads-chip-label" data-style="outlined" data-color="orange">iPaaS</span></td><td>法人</td><td>構築・管理・運用・利用・開発</td><td></td></tr>
+                    <tr><th scope="row">Google Apps Script</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>管理・運用・開発</td><td></td></tr>
+                    <tr><th scope="row">Power Query</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>管理・運用・開発</td><td></td></tr>
+                    <tr><th scope="row">Power Apps</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>管理・運用・開発</td><td></td></tr>
+                    <tr><th scope="row">VBA</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>管理・運用・開発</td><td></td></tr>
+                    <tr><th scope="row">Active Server Pages</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発・運用</td><td></td></tr>
+                    <tr><th scope="row">VBScript</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発・運用</td><td></td></tr>
+                    <tr><th scope="row">JavaScript</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発・運用</td><td></td></tr>
+                    <tr><th scope="row">VB.NET</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発・運用</td><td></td></tr>
+                    <tr><th scope="row">HTML/CSS</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発・運用</td><td></td></tr>
+                    <tr><th scope="row">Oracle Forms/Reports</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
+                    <tr><th scope="row">Transact-SQL</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
+                    <tr><th scope="row">PL/SQL</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
+                    <tr><th scope="row">TypeScript</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
+                    <tr><th scope="row">Google clasp</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>利用</td><td>オンラインエディタ→ローカルエディタ&amp;GitHub環境への移行を実施</td></tr>
+                    <tr><th scope="row">Visual Studio Code</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>利用</td><td></td></tr>
+                    <tr><th scope="row">Cursor</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>構築・管理・運用・利用</td><td>チームプランを運用・管理</td></tr>
+                    <tr><th scope="row">GitHub</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>導入・運用・利用・開発</td><td>情シスチームへGitHubを導入し、メンバーへ定着化</td></tr>
+                    <tr><th scope="row">Deno（Slack SDK）</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
+                    <tr><th scope="row">Homebrew</th><td><span class="dads-chip-label" data-style="outlined" data-color="purple">開発言語・環境</span></td><td>法人</td><td>開発</td><td></td></tr>
+                    <tr><th scope="row">HubSpot</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">SFA/MA</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
+                    <tr><th scope="row">formrun</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">SFA/MA</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
+                    <tr><th scope="row">Marketo</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">SFA/MA</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
+                    <tr><th scope="row">KARTE</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">SFA/MA</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
+                    <tr><th scope="row">Autoジョブ名人</th><td><span class="dads-chip-label" data-style="outlined" data-color="orange">RPA</span></td><td>法人</td><td>導入・構築・管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Movable Type クラウド版</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">CMS</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
+                    <tr><th scope="row">Spealy</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">CMS</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
+                    <tr><th scope="row">Adobe Creative Cloud</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Figma</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">FigJam</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">PowerDirector 16</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>法人</td><td>運用・利用</td><td></td></tr>
+                    <tr><th scope="row">VRoid Studio</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>法人</td><td>利用</td><td></td></tr>
+                    <tr><th scope="row">Windows</th><td><span class="dads-chip-label" data-style="outlined" data-color="cyan">ハードウェア</span></td><td>法人</td><td>導入・構築・管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Mac</th><td><span class="dads-chip-label" data-style="outlined" data-color="cyan">ハードウェア</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">iOS</th><td><span class="dads-chip-label" data-style="outlined" data-color="cyan">ハードウェア</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Android</th><td><span class="dads-chip-label" data-style="outlined" data-color="cyan">ハードウェア</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">ラベルプリンター</th><td><span class="dads-chip-label" data-style="outlined" data-color="cyan">ハードウェア</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
+                    <tr><th scope="row">オフィス複合機</th><td><span class="dads-chip-label" data-style="outlined" data-color="cyan">ハードウェア</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
+                    <tr><th scope="row">Asana</th><td><span class="dads-chip-label" data-style="outlined" data-color="blue">タスク管理</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Zendesk</th><td><span class="dads-chip-label" data-style="outlined" data-color="blue">ヘルプデスク</span></td><td>法人</td><td>管理・運用</td><td></td></tr>
+                    <tr><th scope="row">Dify</th><td><span class="dads-chip-label" data-style="outlined" data-color="orange">AI</span></td><td>法人</td><td>利用・開発・運用</td><td></td></tr>
+                    <tr><th scope="row">マネーフォワード Admina</th><td><span class="dads-chip-label" data-style="outlined" data-color="green">SMP</span></td><td>法人</td><td>管理・運用・利用</td><td></td></tr>
+                    <tr><th scope="row">Bitwarden</th><td><span class="dads-chip-label" data-style="outlined" data-color="red">セキュリティ</span></td><td>個人</td><td>個人利用</td><td></td></tr>
+                    <tr><th scope="row">IFTTT</th><td><span class="dads-chip-label" data-style="outlined" data-color="orange">iPaaS</span></td><td>個人</td><td>個人利用</td><td></td></tr>
+                    <tr><th scope="row">DaVinci Resolve</th><td><span class="dads-chip-label" data-style="outlined" data-color="gray">デザイン</span></td><td>個人</td><td>個人利用</td><td></td></tr>
+                    <tr><th scope="row">NAS</th><td><span class="dads-chip-label" data-style="outlined" data-color="cyan">ハードウェア</span></td><td>個人</td><td>個人利用</td><td></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <a class="dads-disclosure__back-link" href="#skills-all-summary">
+              <svg class="dads-disclosure__back-link-icon" width="24" height="24" fill="none" aria-hidden="true"><path d="M6 7V14.5C6 16.8 8.2 19 10.5 19C12.8 19 15 16.8 15 14.5V6M10.709 9.7L15 5.414L19.291 9.7" stroke="currentcolor" stroke-width="2"/></svg>
+              「経験のあるITサービス・ソフトウェア・言語の一覧」の先頭に戻る
+            </a>
           </div>
-        </div>
+        </details>
       </div>
     </section>
 
@@ -594,19 +783,40 @@
     <section class="section" id="certifications" aria-labelledby="certifications-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">Certifications</p>
+          <p class="dads-heading__shoulder">05 Certifications</p>
           <h2 class="dads-heading__heading" id="certifications-heading">保有資格</h2>
         </hgroup>
-        <ul class="dads-list" data-spacing="4">
-          <li>ITパスポート</li>
-          <li>基本情報技術者試験</li>
-          <li>情報セキュリティマネジメント試験</li>
-          <li>ITIL V3 Foundation</li>
-          <li>日商簿記検定試験3級</li>
-          <li>秘書技能検定2級</li>
-          <li>電話応対技能検定3級</li>
-          <li>第一種普通自動車運転免許</li>
-        </ul>
+        <dl class="dads-description-list">
+          <div>
+            <dt>国家試験（IPA 情報処理技術者試験）</dt>
+            <dd>
+              <ul class="dads-list" data-spacing="4">
+                <li>ITパスポート</li>
+                <li>基本情報技術者試験</li>
+                <li>情報セキュリティマネジメント試験</li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>民間資格・検定</dt>
+            <dd>
+              <ul class="dads-list" data-spacing="4">
+                <li>ITIL V3 Foundation</li>
+                <li>日商簿記検定試験3級</li>
+                <li>秘書技能検定2級</li>
+                <li>電話応対技能検定3級</li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>免許</dt>
+            <dd>
+              <ul class="dads-list" data-spacing="4">
+                <li>第一種普通自動車運転免許</li>
+              </ul>
+            </dd>
+          </div>
+        </dl>
       </div>
     </section>
 
@@ -614,78 +824,16 @@
     <section class="section" id="output" aria-labelledby="output-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">Output</p>
+          <p class="dads-heading__shoulder">06 Output</p>
           <h2 class="dads-heading__heading" id="output-heading">アウトプット</h2>
         </hgroup>
-        <h3 class="dads-heading" data-size="24" data-rule="2"><a class="dads-link" href="https://note.com/mochicco_kinako/m/m50fe4ceb8509" target="_blank" rel="noopener">noteマガジン「情シスのあれそれ」<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></h3>
-        <p>情シス系のアウトプット記事をまとめたマガジンです。得た知見は随時投稿中です！</p>
-      </div>
-    </section>
-
-    <!-- 副業 -->
-    <section class="section" id="side-job" aria-labelledby="side-job-heading">
-      <div class="container">
-        <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">Side Job</p>
-          <h2 class="dads-heading__heading" id="side-job-heading">副業</h2>
-        </hgroup>
-        <div class="status">
-          <span>ステータス：</span>
-          <span class="dads-chip-label" data-style="filled-2" data-color="green">受付中</span>
-        </div>
-        <p>以下の内容について副業受付中です。</p>
-
         <div class="subsection">
-          <h3 class="dads-heading" data-size="24" data-rule="2">条件等</h3>
-          <div class="block">
-            <h4 class="dads-heading" data-size="18">支援内容</h4>
-            <ul class="dads-list" data-spacing="4">
-              <li>ITコンサルティング業務</li>
-              <li>コーポレートIT業務委託</li>
-              <li>ITに関するアドバイス（インタビュー形式・単発スポットコンサルティング）</li>
-            </ul>
-          </div>
-          <div class="block">
-            <h4 class="dads-heading" data-size="18">契約条件等</h4>
-            <ul class="dads-list" data-spacing="4">
-              <li>フルリモート</li>
-              <li>本業の定時時間外の夜間、ないし休日での対応</li>
-              <li>月額基本料＋稼働時間給（要相談）</li>
-            </ul>
-          </div>
-          <div class="block">
-            <h4 class="dads-heading" data-size="18">連絡先</h4>
-            <p><a class="dads-link" href="https://twitter.com/kinasato_mochi" target="_blank" rel="noopener">X（Twitter）のDM<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></p>
-          </div>
+          <h3 class="dads-heading" data-size="24" data-rule="2"><a class="dads-link" href="https://note.com/mochicco_kinako/m/m50fe4ceb8509" target="_blank" rel="noopener">noteマガジン「情シスのあれそれ」<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></h3>
+          <p>情シス系のアウトプット記事をまとめたマガジンです。</p>
         </div>
-
         <div class="subsection">
-          <h3 class="dads-heading" data-size="24" data-rule="2">副業履歴</h3>
-          <div class="block">
-            <h4 class="dads-heading" data-size="18">情報システムサービス コンサルティング会社</h4>
-            <dl class="dads-description-list">
-              <div><dt>期間</dt><dd>2023.02（単月）</dd></div>
-              <div><dt>ポジション</dt><dd>テクニカルサポートスタッフ（業務委託）</dd></div>
-              <div>
-                <dt>業務内容</dt>
-                <dd>
-                  <ul class="dads-list" data-spacing="4">
-                    <li>ヘルプデスク業務</li>
-                    <li>ヘルプデスク業務効率化</li>
-                  </ul>
-                </dd>
-              </div>
-            </dl>
-          </div>
-          <div class="block">
-            <h4 class="dads-heading" data-size="18">スポットコンサルティング</h4>
-            <p><a class="dads-link" href="https://service.visasq.com/users/5720021501607936" target="_blank" rel="noopener">ビザスクlite<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a>によるスポットコンサルティング依頼</p>
-            <ul class="dads-list" data-spacing="4">
-              <li>SaaSサービス アドバイザリー</li>
-              <li>食品業界向け販売管理業務 アドバイザリー</li>
-              <li>SaaSサービス アドバイザリー</li>
-            </ul>
-          </div>
+          <h3 class="dads-heading" data-size="24" data-rule="2"><a class="dads-link" href="https://zenn.dev/kinasato_mochi" target="_blank" rel="noopener">Zenn<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></h3>
+          <p>情シス視点の技術記事を投稿しています。</p>
         </div>
       </div>
     </section>
@@ -694,59 +842,69 @@
     <section class="section" id="job-change" aria-labelledby="job-change-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">Career Change</p>
+          <p class="dads-heading__shoulder">07 Career Change</p>
           <h2 class="dads-heading__heading" id="job-change-heading">転職</h2>
         </hgroup>
         <div class="status">
           <span>ステータス：</span>
-          <span class="dads-chip-label" data-style="filled-1" data-color="gray">転職活動は行っておりません</span>
+          <span class="dads-chip-label" data-style="filled-1" data-color="gray">転職は検討していません</span>
+          <span class="dads-chip-label" data-style="filled-1" data-color="green">カジュアル面談可</span>
         </div>
-
-        <div class="subsection">
-          <h3 class="dads-heading" data-size="24" data-rule="2">求職時の想定条件</h3>
-          <div class="block">
-            <h4 class="dads-heading" data-size="18">条件</h4>
+        <p>現在、転職は検討していませんが、情報収集は随時行っており、カジュアル面談もお受けしています。ご希望の方は<a class="dads-link" href="#contact">お問い合わせ</a>からご連絡ください。</p>
+        <p>求職時に想定している条件は以下のとおりです。</p>
+        <details class="dads-disclosure">
+          <summary class="dads-disclosure__summary" id="job-change-conditions">
+            <svg class="dads-disclosure__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="11" fill="currentcolor"/>
+              <circle class="dads-disclosure__icon-circle" cx="12" cy="12" r="8" fill="currentcolor"/>
+              <path class="dads-disclosure__icon-triangle" d="M17 10H7L12 15L17 10Z" fill="Canvas"/>
+            </svg>
+            求職時の想定条件
+          </summary>
+          <div class="dads-disclosure__content">
             <ul class="dads-list" data-spacing="4">
               <li>職種：情シス（コーポレートIT）</li>
               <li>年収700万円 〜 を希望</li>
               <li>リモートワーク可</li>
               <li>フレックス勤務可</li>
             </ul>
+            <div class="block">
+              <h3 class="dads-heading" data-size="18">上記条件について</h3>
+              <p>年収に関しては上記の通り希望しますが、要相談です。</p>
+              <p>北陸地方都市在住、かつフルスタックでの育児中であるため、リモートワークおよび勤務時間が調整可能なフレックス勤務の環境を希望します。（保育園の送り迎えや急病対応などが発生するため）</p>
+              <p>オフィスへの出社は月1〜2回程度であれば可能です。（居住地の北陸〜都市圏の移動を想定）</p>
+              <p>上記の通り育児中であるため、育児と仕事の両立に対して理解のある環境や働き方がフレキシブルな環境であるととても嬉しいです。</p>
+            </div>
           </div>
-          <div class="block">
-            <h4 class="dads-heading" data-size="18">上記条件について</h4>
-            <p>年収に関しては上記の通り希望しますが、要相談です。</p>
-            <p>北陸地方都市在住、かつフルスタックでの育児中であるため、リモートワークおよび勤務時間が調整可能なフレックス勤務の環境を希望します。（保育園の送り迎えや急病対応などが発生するため）</p>
-            <p>オフィスへの出社は月1〜2回程度であれば可能です。（居住地の北陸〜都市圏の移動を想定）</p>
-            <p>上記の通り育児中であるため、育児と仕事の両立に対して理解のある環境や働き方がフレキシブルな環境であるととても嬉しいです。</p>
-          </div>
-        </div>
+        </details>
       </div>
     </section>
 
-    <!-- キャリアSNS -->
-    <section class="section" id="sns" aria-labelledby="sns-heading">
+    <!-- お問い合わせ -->
+    <section class="section" id="contact" aria-labelledby="contact-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">Links</p>
-          <h2 class="dads-heading__heading" id="sns-heading">キャリアSNS</h2>
+          <p class="dads-heading__shoulder">08 Contact</p>
+          <h2 class="dads-heading__heading" id="contact-heading">お問い合わせ</h2>
         </hgroup>
-        <ul class="dads-list" data-spacing="8">
-          <li><a class="dads-link" href="https://youtrust.jp/users/kinasato_m" target="_blank" rel="noopener">YOUTRUST<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></li>
-          <li><a class="dads-link" href="https://www.wantedly.com/id/itg_corpit" target="_blank" rel="noopener">Wantedly<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></li>
-          <li><a class="dads-link" href="https://twitter.com/kinasato_mochi" target="_blank" rel="noopener">X（Twitter）<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></li>
-          <li><a class="dads-link" href="https://github.com/Kinasato" target="_blank" rel="noopener">GitHub<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></li>
-        </ul>
+        <p>お問い合わせは、<a class="dads-link" href="https://twitter.com/kinasato_mochi" target="_blank" rel="noopener">X（Twitter）のDM<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a>からお気軽にご連絡ください。</p>
+        <div class="block" id="sns">
+          <h3 class="dads-heading" data-size="24" data-rule="2">SNS・各種アカウント</h3>
+          <ul class="dads-list" data-spacing="8">
+            <li><a class="dads-link" href="https://youtrust.jp/users/kinasato_m" target="_blank" rel="noopener">YOUTRUST<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></li>
+            <li><a class="dads-link" href="https://www.wantedly.com/id/itg_corpit" target="_blank" rel="noopener">Wantedly<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></li>
+            <li><a class="dads-link" href="https://twitter.com/kinasato_mochi" target="_blank" rel="noopener">X（Twitter）<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></li>
+            <li><a class="dads-link" href="https://github.com/Kinasato" target="_blank" rel="noopener">GitHub<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></li>
+          </ul>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>本サイトは、デジタル庁デザインシステムのガイドラインおよびコードスニペット（HTML版）を利用して個人が作成したものであり、デジタル庁が作成・運営するものではありません。</p>
-      <p>出典：デジタル庁デザインシステムウェブサイト <a class="dads-link" href="https://design.digital.go.jp/dads/" target="_blank" rel="noopener">https://design.digital.go.jp/dads/<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a> およびデジタル庁GitHub <a class="dads-link" href="https://github.com/digital-go-jp" target="_blank" rel="noopener">https://github.com/digital-go-jp<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a></p>
-      <p>コードスニペットは <a class="dads-link" href="https://github.com/digital-go-jp/design-system-example-components-html/blob/main/LICENSE" target="_blank" rel="noopener">MIT License（Copyright (c) 2025 デジタル庁）<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a> のもとで利用しています。フォントは Noto Sans JP（SIL Open Font License 1.1）を Google Fonts から読み込んでいます。</p>
       <p>&copy; Kinasato vil. / 鬼無里 餅衛門</p>
+      <p class="site-footer__credit">サイトのデザインに、デジタル庁デザインシステムウェブサイト <a class="dads-link" href="https://design.digital.go.jp/dads/">https://design.digital.go.jp/dads/</a> およびデジタル庁GitHub <a class="dads-link" href="https://github.com/digital-go-jp">https://github.com/digital-go-jp</a> のコードスニペットを使用しています。</p>
     </div>
   </footer>
 </body>
