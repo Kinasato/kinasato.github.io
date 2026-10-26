@@ -1,0 +1,667 @@
+/* サイト固有のスタイル。色・文字はデジタル庁デザインシステム（assets/dads）のトークンを使う */
+
+/* キーカラーを紫系に設定（プライマリーとなる900は白背景に対して4.5:1以上） */
+:root {
+  --color-key-50: var(--color-primitive-purple-50);
+  --color-key-100: var(--color-primitive-purple-100);
+  --color-key-200: var(--color-primitive-purple-200);
+  --color-key-300: var(--color-primitive-purple-300);
+  --color-key-400: var(--color-primitive-purple-400);
+  --color-key-500: var(--color-primitive-purple-500);
+  --color-key-600: var(--color-primitive-purple-600);
+  --color-key-700: var(--color-primitive-purple-700);
+  --color-key-800: var(--color-primitive-purple-800);
+  --color-key-900: var(--color-primitive-purple-900);
+  --color-key-1000: var(--color-primitive-purple-1000);
+  --color-key-1100: var(--color-primitive-purple-1100);
+  --color-key-1200: var(--color-primitive-purple-1200);
+  /* アクセントカラー（栗色）：白背景に対して約8:1 */
+  --color-accent-chestnut: #7b3f32;
+  /* ヒーロー（常に濃色背景）上の文字色。ダークモードでも反転させない */
+  --site-color-on-dark: #ffffff;
+  --site-color-on-dark-muted: #cccccc;
+}
+
+/* ---------- ダークモード ----------
+   DADSにはダーク用の定義がないため、ニュートラル（グレー）とキーカラーの階調を反転させる。
+   data-theme は <head> 内のスクリプトがOS設定または保存済みの選択から付与する。
+   フォーカスインジケーター（黒＋Yellow-300）はDADSの規定どおり変更しない。 */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  /* 背景#141414に対して：本文Gray-800は約14:1、Gray-536は約6:1、Gray-420は約4:1 */
+  --color-neutral-white: #141414;
+  --color-neutral-solid-gray-50: #1f1f1f;
+  --color-neutral-solid-gray-100: #2b2b2b;
+  --color-neutral-solid-gray-200: #404040;
+  --color-neutral-solid-gray-300: #555555;
+  --color-neutral-solid-gray-400: #6b6b6b;
+  --color-neutral-solid-gray-420: #7a7a7a;
+  --color-neutral-solid-gray-500: #8a8a8a;
+  --color-neutral-solid-gray-536: #9a9a9a;
+  --color-neutral-solid-gray-600: #a8a8a8;
+  --color-neutral-solid-gray-700: #c2c2c2;
+  --color-neutral-solid-gray-800: #e0e0e0;
+  --color-neutral-solid-gray-900: #f2f2f2;
+  --color-neutral-opacity-gray-100: rgba(255, 255, 255, 0.1);
+  --color-neutral-opacity-gray-300: rgba(255, 255, 255, 0.3);
+  --color-key-50: var(--color-primitive-purple-1200);
+  --color-key-100: var(--color-primitive-purple-1100);
+  --color-key-200: var(--color-primitive-purple-1000);
+  --color-key-300: var(--color-primitive-purple-900);
+  --color-key-400: var(--color-primitive-purple-800);
+  --color-key-500: var(--color-primitive-purple-700);
+  --color-key-600: var(--color-primitive-purple-600);
+  --color-key-700: var(--color-primitive-purple-500);
+  --color-key-800: var(--color-primitive-purple-400);
+  --color-key-900: var(--color-primitive-purple-300);
+  --color-key-1000: var(--color-primitive-purple-200);
+  --color-key-1100: var(--color-primitive-purple-100);
+  --color-key-1200: var(--color-primitive-purple-50);
+  --color-accent-chestnut: #e8a898;
+}
+
+/* リンク：DADSのリンクカラー（青／訪問済みマゼンタ）を濃色背景向けの明度に */
+:root[data-theme="dark"] :is(.dads-link, .dads-disclosure__back-link, .dads-accordion__back-link):any-link { color: var(--color-primitive-blue-300); }
+
+:root[data-theme="dark"] .dads-link:visited { color: var(--color-primitive-magenta-300); }
+
+@media (hover: hover) {
+  :root[data-theme="dark"] :is(.dads-link, .dads-disclosure__back-link, .dads-accordion__back-link):hover { color: var(--color-primitive-blue-200); }
+}
+
+:root[data-theme="dark"] :is(.dads-link, .dads-disclosure__back-link, .dads-accordion__back-link):active { color: var(--color-primitive-orange-300); }
+
+/* チップラベル：濃い塗り＋明るい文字・枠線に反転（グレーはニュートラルの反転で対応） */
+:root[data-theme="dark"] .dads-chip-label[data-color="blue"] { --_non-text: var(--color-primitive-blue-300); --_bg: var(--color-primitive-blue-1100); --_text: var(--color-primitive-blue-200); --_text-dark: var(--color-primitive-blue-100); }
+:root[data-theme="dark"] .dads-chip-label[data-color="red"] { --_non-text: var(--color-primitive-red-300); --_bg: var(--color-primitive-red-1100); --_text: var(--color-primitive-red-200); --_text-dark: var(--color-primitive-red-100); }
+:root[data-theme="dark"] .dads-chip-label[data-color="cyan"] { --_non-text: var(--color-primitive-cyan-300); --_bg: var(--color-primitive-cyan-1100); --_text: var(--color-primitive-cyan-200); --_text-dark: var(--color-primitive-cyan-100); }
+:root[data-theme="dark"] .dads-chip-label[data-color="green"] { --_non-text: var(--color-primitive-green-300); --_bg: var(--color-primitive-green-1100); --_text: var(--color-primitive-green-200); --_text-dark: var(--color-primitive-green-100); }
+:root[data-theme="dark"] .dads-chip-label[data-color="orange"] { --_non-text: var(--color-primitive-orange-300); --_bg: var(--color-primitive-orange-1100); --_text: var(--color-primitive-orange-200); --_text-dark: var(--color-primitive-orange-100); }
+:root[data-theme="dark"] .dads-chip-label[data-color="purple"] { --_non-text: var(--color-primitive-purple-300); --_bg: var(--color-primitive-purple-1100); --_text: var(--color-primitive-purple-200); --_text-dark: var(--color-primitive-purple-100); }
+:root[data-theme="dark"] .dads-chip-label[data-color="yellow"] { --_non-text: var(--color-primitive-yellow-300); --_bg: var(--color-primitive-yellow-1100); --_text: var(--color-primitive-yellow-200); --_text-dark: var(--color-primitive-yellow-100); }
+
+/* 表の見出し下の境界線（DADSでは黒） */
+:root[data-theme="dark"] :last-of-type > .dads-table__col-header { border-bottom-color: var(--color-neutral-solid-gray-900); }
+
+/* 塗りボタン：キーカラーが明るくなるため、文字を濃色に（DADSでは白固定） */
+:root[data-theme="dark"] .dads-button[data-type="solid-fill"] { color: var(--color-neutral-white); }
+
+/* ハンバーガーメニューのアイコン（DADSでは黒） */
+:root[data-theme="dark"] .dads-hamburger-menu-button__icon { color: var(--color-neutral-solid-gray-900); }
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(72 / 16 * 1rem); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* 本文：Std-16N-170 */
+body {
+  margin: 0;
+  background-color: var(--color-neutral-white);
+  color: var(--color-neutral-solid-gray-800);
+  font-size: calc(16 / 16 * 1rem);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+
+p { margin: 0 0 1lh; }
+
+p:last-child { margin-bottom: 0; }
+
+.container {
+  max-width: calc(1040 / 16 * 1rem);
+  margin: 0 auto;
+  padding: 0 calc(16 / 16 * 1rem);
+}
+
+@media (min-width: 48rem) {
+  .container { padding: 0 calc(32 / 16 * 1rem); }
+}
+
+/* スキップリンク */
+.skip-link {
+  position: absolute;
+  top: calc(8 / 16 * 1rem);
+  left: calc(8 / 16 * 1rem);
+  z-index: 10;
+  padding: calc(8 / 16 * 1rem) calc(16 / 16 * 1rem);
+  background-color: var(--color-neutral-white);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible { transform: none; }
+
+.u-nowrap { white-space: nowrap; }
+
+/* 新規タブで開くリンクのテールアイコン */
+.dads-link__icon { margin-left: calc(4 / 16 * 1rem); }
+
+/* 横スクロール領域：スクロールを促すシャドー（テーブル：使い方） */
+.scroll-shadow {
+  overflow-x: auto;
+  background:
+    linear-gradient(to right, var(--color-neutral-white) 30%, transparent) left / calc(40 / 16 * 1rem) 100% no-repeat local,
+    linear-gradient(to left, var(--color-neutral-white) 30%, transparent) right / calc(40 / 16 * 1rem) 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, var(--color-neutral-opacity-gray-300), transparent) left / calc(16 / 16 * 1rem) 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, var(--color-neutral-opacity-gray-300), transparent) right / calc(16 / 16 * 1rem) 100% no-repeat scroll;
+  background-color: var(--color-neutral-white);
+}
+
+/* ヘッダー */
+.site-header {
+  border-top: calc(6 / 16 * 1rem) solid var(--color-key-900);
+  background-color: var(--color-neutral-white);
+}
+
+.site-header__brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: calc(64 / 16 * 1rem);
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: calc(8 / 16 * 1rem);
+}
+
+.site-header__menu-button[hidden],
+[data-theme-toggle][hidden] { display: none; }
+
+/* ダークモード切替：押下中は月アイコンを塗る（状態は aria-pressed で伝える） */
+.theme-toggle[aria-pressed="true"] .theme-toggle__icon path { fill: currentcolor; }
+
+.drawer-theme { padding: calc(16 / 16 * 1rem); }
+
+@media (max-width: 47.99rem) {
+  .site-header__theme-toggle { display: none; }
+}
+
+@media (min-width: 48rem) {
+  .site-header__menu-button { display: none; }
+}
+
+/* モバイル（JS有効時）はヘッダーを追従させ、メニューはドロワーに切り替える */
+@media (max-width: 47.99rem) {
+  .js .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    transition: box-shadow 0.2s ease-out;
+  }
+
+  .js .site-header.is-stuck { box-shadow: var(--elevation-1); }
+
+  .js .site-nav { display: none; }
+}
+
+.dads-drawer__body .dads-menu-list { border-top: 1px solid var(--color-neutral-solid-gray-420); }
+
+.dads-drawer__body .dads-menu-list > li { border-bottom: 1px solid var(--color-neutral-solid-gray-420); }
+
+/* Std-22B-150。ロゴマークは装飾（文字と併記するため代替テキストは空） */
+.site-header__logo:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(8 / 16 * 1rem);
+  color: var(--color-neutral-solid-gray-900);
+  font-weight: bold;
+  font-size: calc(22 / 16 * 1rem);
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.site-header__logo-mark {
+  flex-shrink: 0;
+  width: calc(32 / 16 * 1rem);
+  height: calc(32 / 16 * 1rem);
+}
+
+/* ページ内メニューは追従させ、現在地の項目を強調（aria-current は site.js が付与） */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--color-neutral-solid-gray-420);
+  transition: box-shadow 0.2s ease-out;
+}
+
+.site-nav.is-stuck { box-shadow: var(--elevation-1); }
+
+.site-nav .dads-horizontal-menu {
+  border-bottom: 0;
+  white-space: nowrap;
+}
+
+.site-nav .dads-horizontal-menu__item-inner {
+  min-height: calc(52 / 16 * 1rem);
+  padding: calc(12 / 16 * 1rem) calc(16 / 16 * 1rem);
+}
+
+/* ヒーロー：夜景をイメージした濃い紫〜群青の背景に白文字 */
+.hero {
+  padding: calc(40 / 16 * 1rem) 0;
+  background-color: var(--color-primitive-purple-1200);
+  background-image: linear-gradient(135deg, var(--color-primitive-purple-1200), var(--color-primitive-blue-1200));
+  color: var(--site-color-on-dark);
+}
+
+@media (min-width: 48rem) {
+  .hero { padding: calc(56 / 16 * 1rem) 0; }
+}
+
+/* ロゴは名前の左に並べ、肩書き・名前と一つのまとまりにする */
+.hero__head {
+  display: flex;
+  align-items: center;
+  gap: calc(16 / 16 * 1rem);
+  margin-bottom: calc(24 / 16 * 1rem);
+}
+
+.hero__logo {
+  flex-shrink: 0;
+  width: calc(64 / 16 * 1rem);
+  height: auto;
+}
+
+@media (min-width: 48rem) {
+  .hero__head { gap: calc(24 / 16 * 1rem); }
+
+  .hero__logo { width: calc(96 / 16 * 1rem); }
+}
+
+.hero hgroup { margin: 0; }
+
+/* Std-18B-160（モバイルはStd-16B-170）。ゴールドは濃色背景に対して10:1以上 */
+.hero__shoulder {
+  margin: 0 0 calc(4 / 16 * 1rem);
+  color: var(--color-primitive-yellow-300);
+  font-weight: bold;
+  font-size: calc(16 / 16 * 1rem);
+  line-height: 1.7;
+}
+
+@media (min-width: 48rem) {
+  .hero__shoulder {
+    font-size: calc(18 / 16 * 1rem);
+    line-height: 1.6;
+  }
+}
+
+/* モバイル：Std-36B-140 / デスクトップ：Dsp-57B-140 */
+.hero__title {
+  margin: 0;
+  color: var(--site-color-on-dark);
+  font-size: calc(36 / 16 * 1rem);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+@media (min-width: 48rem) {
+  .hero__title {
+    font-size: calc(57 / 16 * 1rem);
+    letter-spacing: 0;
+  }
+}
+
+/* リード文と要点：モバイルは縦積み、デスクトップは2列 */
+.hero__body {
+  display: grid;
+  gap: calc(16 / 16 * 1rem);
+  margin-bottom: calc(24 / 16 * 1rem);
+}
+
+@media (min-width: 48rem) {
+  .hero__body {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: calc(48 / 16 * 1rem);
+  }
+}
+
+.hero__lead { margin: 0; }
+
+.hero__highlights { margin: 0; }
+
+.hero__highlights > li::marker { color: var(--color-primitive-yellow-300); }
+
+/* 基本情報と更新日を1行に（狭い画面では折り返す）。区切り線は装飾 */
+.hero__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: calc(8 / 16 * 1rem) calc(32 / 16 * 1rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: calc(16 / 16 * 1rem);
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(8 / 16 * 1rem) calc(32 / 16 * 1rem);
+  margin: 0;
+}
+
+.hero__meta > div {
+  display: flex;
+  gap: calc(8 / 16 * 1rem);
+}
+
+.hero__meta dt {
+  color: var(--color-primitive-purple-200);
+  font-weight: bold;
+}
+
+.hero__meta dd { margin: 0; }
+
+.hero__updated { color: var(--site-color-on-dark-muted); }
+
+/* セクション */
+.section {
+  padding: calc(48 / 16 * 1rem) 0;
+  border-bottom: 1px solid var(--color-neutral-solid-gray-420);
+}
+
+.section > .container > .dads-heading { margin-bottom: calc(32 / 16 * 1rem); }
+
+.section > .container > .dads-heading .dads-heading__shoulder { color: var(--color-accent-chestnut); }
+
+.subsection { margin-top: calc(40 / 16 * 1rem); }
+
+.section > .container > .dads-heading + .subsection { margin-top: 0; }
+
+.subsection > .dads-heading { margin: 0 0 calc(24 / 16 * 1rem); }
+
+.block + .block { margin-top: calc(24 / 16 * 1rem); }
+
+.block > .dads-heading { margin: 0 0 calc(8 / 16 * 1rem); }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(8 / 16 * 1rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 引用 */
+.quote { margin: 0; }
+
+.quote + .quote { margin-top: calc(24 / 16 * 1rem); }
+
+.quote__source {
+  margin-top: calc(8 / 16 * 1rem);
+  margin-left: calc(40 / 16 * 1rem);
+  color: var(--color-neutral-solid-gray-600);
+}
+
+.quote__source cite { font-style: normal; }
+
+@media (max-width: 47.99rem) {
+  .dads-blockquote { margin: 0; }
+  .quote__source { margin-left: 0; }
+}
+
+/* 自己紹介の補足（アコーディオン） */
+.about-more {
+  margin-top: calc(24 / 16 * 1rem);
+  border-top: 1px solid var(--color-neutral-solid-gray-420);
+}
+
+.dads-accordion__content > .dads-description-list:first-child { margin-top: 0; }
+
+.dads-accordion__content > .block { margin-top: calc(24 / 16 * 1rem); }
+
+.dads-accordion__back-link { margin-top: calc(24 / 16 * 1rem); }
+
+/* 専門・得意領域：項番タイプの箇条書きリスト */
+.specialty-list { margin-top: calc(24 / 16 * 1rem); }
+
+.specialty-list > li > span:first-child {
+  color: var(--color-accent-chestnut);
+  font-weight: bold;
+}
+
+/* 経歴タイムライン */
+.timeline {
+  margin: calc(32 / 16 * 1rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline__item {
+  position: relative;
+  padding-left: calc(40 / 16 * 1rem);
+  padding-bottom: calc(40 / 16 * 1rem);
+}
+
+.timeline__item:last-child { padding-bottom: 0; }
+
+/* 縦線：Gray-420（背景白に対して3:1） */
+.timeline__item::before {
+  position: absolute;
+  top: calc(12 / 16 * 1rem);
+  bottom: 0;
+  left: calc(7 / 16 * 1rem);
+  border-left: 2px solid var(--color-neutral-solid-gray-420);
+  content: "";
+}
+
+.timeline__item:last-child::before { display: none; }
+
+.timeline__item[data-current]::after { background-color: var(--color-key-900); }
+
+.timeline__item::after {
+  position: absolute;
+  top: calc(6 / 16 * 1rem);
+  left: 0;
+  box-sizing: border-box;
+  width: calc(16 / 16 * 1rem);
+  height: calc(16 / 16 * 1rem);
+  border: 3px solid var(--color-key-900);
+  border-radius: 50%;
+  background-color: var(--color-neutral-white);
+  content: "";
+}
+
+@media (forced-colors: active) {
+  .timeline__item::after { border-color: CanvasText; }
+}
+
+.timeline .dads-heading { margin: 0; }
+
+.timeline__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(8 / 16 * 1rem);
+  margin-bottom: calc(4 / 16 * 1rem);
+}
+
+/* 基礎情報は項目名と内容を常に横並びにしてコンパクトに */
+.timeline article > .dads-description-list {
+  grid-template-columns: max-content 1fr;
+  gap: calc(4 / 16 * 1rem) calc(16 / 16 * 1rem);
+  margin: calc(12 / 16 * 1rem) 0 0;
+}
+
+.timeline article > .dads-description-list > div { display: contents; }
+
+.timeline article > .dads-description-list > div > dd { margin-left: 0; }
+
+/* 業務履歴：領域名の下に1文ずつの箇条書き（最大2階層） */
+.history-list {
+  gap: calc(16 / 16 * 1rem);
+  margin: 0;
+}
+
+.history-list dd { margin-left: 0; }
+
+.history-list .dads-list {
+  padding-left: calc(24 / 16 * 1rem);
+  list-style-type: disc;
+}
+
+.timeline .dads-disclosure { margin-top: calc(16 / 16 * 1rem); }
+
+/* スキル：領域別カード（外周Gray-420、角丸ミディアム） */
+.skill-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(280 / 16 * 1rem)), 1fr));
+  gap: calc(24 / 16 * 1rem);
+  margin: calc(24 / 16 * 1rem) 0 calc(32 / 16 * 1rem);
+  padding: 0;
+  list-style: none;
+}
+
+.skill-card {
+  border: 1px solid var(--color-neutral-solid-gray-420);
+  border-top: calc(4 / 16 * 1rem) solid var(--color-key-900);
+  border-radius: calc(12 / 16 * 1rem);
+  padding: calc(24 / 16 * 1rem);
+  background-color: var(--color-neutral-white);
+  box-shadow: var(--elevation-1);
+}
+
+.skill-card > .dads-heading { margin: 0 0 calc(16 / 16 * 1rem); }
+
+/* カード上辺の色は、カード内チップラベルの枠線色（白背景に対して3:1以上）と揃える */
+.skill-card[data-color="blue"] { border-top-color: var(--color-primitive-blue-700); }
+.skill-card[data-color="red"] { border-top-color: var(--color-primitive-red-900); }
+.skill-card[data-color="cyan"] { border-top-color: var(--color-primitive-cyan-900); }
+.skill-card[data-color="green"] { border-top-color: var(--color-primitive-green-800); }
+.skill-card[data-color="orange"] { border-top-color: var(--color-primitive-orange-900); }
+.skill-card[data-color="purple"] { border-top-color: var(--color-primitive-purple-800); }
+
+:root[data-theme="dark"] .skill-card[data-color="blue"] { border-top-color: var(--color-primitive-blue-300); }
+:root[data-theme="dark"] .skill-card[data-color="red"] { border-top-color: var(--color-primitive-red-300); }
+:root[data-theme="dark"] .skill-card[data-color="cyan"] { border-top-color: var(--color-primitive-cyan-300); }
+:root[data-theme="dark"] .skill-card[data-color="green"] { border-top-color: var(--color-primitive-green-300); }
+:root[data-theme="dark"] .skill-card[data-color="orange"] { border-top-color: var(--color-primitive-orange-300); }
+:root[data-theme="dark"] .skill-card[data-color="purple"] { border-top-color: var(--color-primitive-purple-300); }
+
+.skills-table .dads-table__table { min-width: calc(720 / 16 * 1rem); }
+
+.skills-table :is(td:nth-child(2), td:nth-child(3), td:nth-child(4)) { white-space: nowrap; }
+
+.skills-table .dads-chip-label { overflow-wrap: normal; }
+
+.skills-all .dads-disclosure__content { padding-left: 0; }
+
+/* スキル一覧の絞り込み（site.js が表示） */
+.skill-filter { margin-bottom: calc(16 / 16 * 1rem); }
+
+.skill-filter__label {
+  margin-bottom: calc(8 / 16 * 1rem);
+  font-weight: bold;
+}
+
+.skill-filter__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(8 / 16 * 1rem);
+  margin: 0 0 calc(8 / 16 * 1rem);
+  padding: 0;
+  list-style: none;
+}
+
+.skill-filter__list .dads-button { font-weight: normal; }
+
+.skill-filter__list .dads-button[aria-pressed="true"] { font-weight: bold; }
+
+/* 色見本：チップラベルの枠線色と同じ（白背景に対して3:1以上） */
+.skill-filter__swatch {
+  display: inline-block;
+  flex-shrink: 0;
+  width: calc(12 / 16 * 1rem);
+  height: calc(12 / 16 * 1rem);
+  border: 1px solid var(--color-neutral-white);
+  border-radius: 50%;
+  background-color: var(--_swatch);
+}
+
+.skill-filter__swatch[data-color="blue"] { --_swatch: var(--color-primitive-blue-700); }
+.skill-filter__swatch[data-color="red"] { --_swatch: var(--color-primitive-red-900); }
+.skill-filter__swatch[data-color="cyan"] { --_swatch: var(--color-primitive-cyan-900); }
+.skill-filter__swatch[data-color="green"] { --_swatch: var(--color-primitive-green-800); }
+.skill-filter__swatch[data-color="orange"] { --_swatch: var(--color-primitive-orange-900); }
+.skill-filter__swatch[data-color="purple"] { --_swatch: var(--color-primitive-purple-800); }
+.skill-filter__swatch[data-color="gray"] { --_swatch: var(--color-neutral-solid-gray-700); }
+
+:root[data-theme="dark"] .skill-filter__swatch[data-color="blue"] { --_swatch: var(--color-primitive-blue-300); }
+:root[data-theme="dark"] .skill-filter__swatch[data-color="red"] { --_swatch: var(--color-primitive-red-300); }
+:root[data-theme="dark"] .skill-filter__swatch[data-color="cyan"] { --_swatch: var(--color-primitive-cyan-300); }
+:root[data-theme="dark"] .skill-filter__swatch[data-color="green"] { --_swatch: var(--color-primitive-green-300); }
+:root[data-theme="dark"] .skill-filter__swatch[data-color="orange"] { --_swatch: var(--color-primitive-orange-300); }
+:root[data-theme="dark"] .skill-filter__swatch[data-color="purple"] { --_swatch: var(--color-primitive-purple-300); }
+
+.skill-filter__status {
+  margin: 0;
+  color: var(--color-neutral-solid-gray-600);
+}
+
+/* ステータス */
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(8 / 16 * 1rem);
+  margin-bottom: calc(24 / 16 * 1rem);
+}
+
+.status + p { margin-bottom: calc(16 / 16 * 1rem); }
+
+.dads-disclosure__content > .block { margin-top: calc(24 / 16 * 1rem); }
+
+/* フッター：領域的な制約のある付随情報のため14pxを許容 */
+.site-footer {
+  padding: calc(24 / 16 * 1rem) 0;
+  background-color: var(--color-neutral-solid-gray-50);
+  color: var(--color-neutral-solid-gray-700);
+  font-size: calc(14 / 16 * 1rem);
+  line-height: 1.5;
+}
+
+.site-footer p { margin: 0; }
+
+.site-footer p + p { margin-top: calc(4 / 16 * 1rem); }
+
+/* クレジット表記：14px（DADSの許容最小）のまま色を抑える。Gray-600はGray-50背景に対して約5:1 */
+.site-footer__credit { color: var(--color-neutral-solid-gray-600); }
+
+/* ドロワーから移動したセクションにはフォーカスを移すが、枠は出さない */
+.section:focus { outline: none; }
+
+/* モーション（視差効果を減らす設定では動かさない。.reveal は site.js が付与） */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(calc(16 / 16 * 1rem)); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .hero > .container { animation: fade-up 0.6s ease-out both; }
+
+  .js .section.reveal {
+    opacity: 0;
+    transform: translateY(calc(24 / 16 * 1rem));
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .js .section.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media print {
+  .js .section.reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
