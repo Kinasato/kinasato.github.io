@@ -1,17 +1,88 @@
-# kinasato.github.io
-Kinasato Mochiemon's Portfolio Site
+# Kinasato vil.
+
+情シス（コーポレートITエンジニア）鬼無里 餅衛門のポートフォリオサイトです。
+スキル・経歴・アウトプットなどをまとめています。
+
+**公開URL：** https://kinasato.github.io/
+
+## 概要
+
+1ページ構成の静的サイトで、GitHub Pages（ユーザーサイト）で公開しています。
+デザインは[デジタル庁デザインシステム](https://design.digital.go.jp/dads/)（DADS）のガイドラインに沿い、アクセシビリティを確保したうえで作成しています。
+
+### 掲載内容
+
+| No. | セクション | 内容 |
+| --- | --- | --- |
+| 01 | 自己紹介 | ごあいさつ、得意・好きなツール、趣味、仕事へ取り組む際のポイント |
+| 02 | 専門・得意領域 | 強みとしている業務領域 |
+| 03 | 経歴・履歴 | 正社員・副業の経歴タイムラインと、各社の業務履歴 |
+| 04 | ITサービス・ソフトウェア・言語 | 領域別のスキルカードと、絞り込み可能な経験一覧 |
+| 05 | 保有資格 | 国家試験・民間資格・免許 |
+| 06 | アウトプット | note・Zenn |
+| 07 | 転職 | 現在のステータスと求職時の想定条件 |
+| 08 | お問い合わせ | 連絡先とSNS・各種アカウント |
+
+## 主な機能
+
+- **ダークモード**：初回はOSの設定に追従し、ヘッダー（モバイルはメニュー内）のボタンで切り替え可能。選択はブラウザに保存されます。
+- **追従メニュー**：スクロールしてもページ内メニューを表示し、現在地の項目を強調。モバイルではドロワーメニューに切り替わります。
+- **スキル一覧の絞り込み**：経験一覧を領域ごとに絞り込めます。
+- **表示アニメーション**：セクションが表示されるときに控えめなフェードイン。
+- **共有時の表示**：OGP・Xカードの画像、ファビコンを設定済み。
+
+## 技術構成
+
+- HTML / CSS / JavaScript のみ（ビルド不要、外部ライブラリなし）
+- [DADS コードスニペット（HTML版）](https://github.com/digital-go-jp/design-system-example-components-html) のCSSを同梱
+- フォント：Noto Sans JP（Google Fonts）
+
+## ディレクトリ構成
+
+```text
+.
+├── index.html            # ページ本体
+├── assets/
+│   ├── css/site.css      # サイト独自のスタイル（配色・レイアウト・ダークモード）
+│   ├── js/site.js        # サイト独自のスクリプト
+│   ├── dads/             # DADS コードスニペット（無改変で同梱）
+│   └── images/           # ロゴ、ファビコン、OGP画像
+├── .nojekyll             # GitHub Pages で Jekyll を無効化
+└── README.md
+```
+
+## ローカルでの確認
+
+リポジトリのルートで簡易サーバーを起動し、ブラウザで http://localhost:8765/ を開きます。
+
+```bash
+python3 -m http.server 8765
+```
+
+## 更新時のメモ
+
+- **最終更新日**：内容を更新したら、ヒーローの「Last Update」（`index.html` の `<time>`）を更新します。
+- **スキル一覧**：行を追加・削除したら、一覧の見出しにある件数（「全○件」）も合わせて更新します。ジャンルのチップ色（`data-color`）で絞り込みの領域が決まります。
+- **DADSのファイル**：`assets/dads/` 配下は編集しません。見た目の調整は `assets/css/site.css` で上書きします。
+- **ロゴの差し替え**：`favicon.png`・`logo_icon.png` を差し替えた場合は、派生ファイル（下記）も同じサイズで作り直します。
+
+## アクセシビリティ
+
+- 文字と背景のコントラスト比は4.5:1以上、枠線やアイコンなどの非テキストは3:1以上を、ライト・ダークの両モードで確認しています。
+- フォーカスインジケーターはDADSの規定どおり変更していません。
+- 「視差効果を減らす」設定ではアニメーションしません。
+- JavaScriptが無効な環境でも、すべての内容を閲覧できます（ライトモード・横スクロールのメニューで表示）。
 
 ## デザインとライセンス
 
-本サイトは[デジタル庁デザインシステム](https://design.digital.go.jp/dads/)（DADS）のガイドラインに沿って作成しています。利用条件は「[利用上の注意事項](https://design.digital.go.jp/dads/introduction/notices/)」に従います。
+利用条件はDADSの「[利用上の注意事項](https://design.digital.go.jp/dads/introduction/notices/)」に従います。
 
 | 対象 | 取り扱い |
 | --- | --- |
-| `assets/dads/` | [DADS コードスニペット（HTML版）](https://github.com/digital-go-jp/design-system-example-components-html) のCSSを**無改変**で同梱。MIT License（`assets/dads/LICENSE`）。無改変利用のため、ページのフッターに利用元（デジタル庁デザインシステムウェブサイト・デジタル庁GitHub）を明記しています。サイト固有の調整は `assets/css/site.css` で行い、同梱ファイルは編集しないでください。 |
-| `assets/css/site.css` | 本サイト独自のスタイル。 |
-| `assets/js/site.js` | 本サイト独自のスクリプト（ダークモード切替、モバイルメニューの開閉、現在地のメニュー強調、スキル一覧の絞り込み、セクションの表示アニメーション）。JavaScriptが無効でも内容はすべて閲覧でき（ライトモード表示）、「視差効果を減らす」設定ではアニメーションしません。 |
-| ダークモード | DADSにダーク用の定義がないため、`site.css` でニュートラルとキーカラーの階調を反転して作成。文字は4.5:1以上、非テキストは3:1以上を確認済み。フォーカスインジケーターはDADSの規定どおり変更していません。 |
-| `assets/images/` | `favicon.png`・`logo_icon.png` はサイト所有者のロゴ（原本）。`favicon-32.png`・`logo-mark-64.png`・`logo-400.png`・`apple-touch-icon.png`・`ogp.png` はそれらから生成した表示用の派生ファイル（ロゴを差し替えた場合は再生成が必要）。 |
+| `assets/dads/` | DADS コードスニペット（HTML版）のCSSを**無改変**で同梱。MIT License（`assets/dads/LICENSE`）。無改変利用のため、ページのフッターに利用元（デジタル庁デザインシステムウェブサイト・デジタル庁GitHub）を明記しています。 |
+| `assets/css/site.css` | サイト独自のスタイル。ダークモードは、DADSにダーク用の定義がないため、ニュートラルとキーカラーの階調を反転して作成しています。 |
+| `assets/js/site.js` | サイト独自のスクリプト。 |
+| `assets/images/` | `favicon.png`・`logo_icon.png` はサイト所有者のロゴ（原本）。`favicon-32.png`・`logo-mark-64.png`・`logo-400.png`・`apple-touch-icon.png`・`ogp.png` は原本から作成した表示用の派生ファイル。 |
 | フォント | Noto Sans JP（SIL Open Font License 1.1）を Google Fonts から読み込み。フォントファイルは同梱していません。 |
 | 外部リンクアイコン | 本サイト用に独自に作成したSVG。 |
 | `design-guide/` | DADSドキュメントのMarkdown版（AI参照用のローカル資料）。再配布にあたらないよう `.gitignore` でリポジトリ・公開サイトから除外しています。 |
