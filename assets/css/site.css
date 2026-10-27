@@ -548,9 +548,17 @@ p:last-child { margin-bottom: 0; }
 
 .skills-table .dads-table__table { min-width: calc(720 / 16 * 1rem); }
 
-.skills-table :is(td:nth-child(2), td:nth-child(3), td:nth-child(4)) { white-space: nowrap; }
+.skills-table :is(td:nth-child(2), td:nth-child(3)) { white-space: nowrap; }
 
-.skills-table .dads-chip-label { overflow-wrap: normal; }
+.skills-table .dads-chip-label {
+  overflow-wrap: normal;
+  white-space: nowrap;
+}
+
+/* フェーズ：工程ごとのチップを横に並べ、セル幅に応じて折り返す */
+.skills-table td:nth-child(4) { min-width: calc(240 / 16 * 1rem); }
+
+.table-chips { gap: calc(4 / 16 * 1rem); }
 
 .skills-all .dads-disclosure__content { padding-left: 0; }
 
