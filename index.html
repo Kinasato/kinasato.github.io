@@ -35,7 +35,7 @@
   <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPMincho:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/dads/global.css">
   <link rel="stylesheet" href="assets/dads/components/heading.css">
   <link rel="stylesheet" href="assets/dads/components/horizontal-menu.css">
@@ -121,13 +121,22 @@
 
   <main id="main">
     <section class="hero" id="top">
-      <div class="container">
-        <div class="hero__head">
-          <img class="hero__logo" src="assets/images/logo-400.png" width="96" height="96" alt="">
-          <hgroup>
-            <p class="hero__shoulder">コーポレートITエンジニア<wbr><span class="u-nowrap">（情シス）</span></p>
-            <h1 class="hero__title">鬼無里 餅衛門</h1>
-          </hgroup>
+      <div class="container hero__grid">
+        <div class="nameplate">
+          <div class="nameplate__stub">
+            <img class="nameplate__logo" src="assets/images/logo-400.png" width="64" height="64" alt="">
+          </div>
+          <div class="nameplate__body">
+            <hgroup>
+              <p class="nameplate__shoulder">コーポレートITエンジニア<wbr><span class="u-nowrap">（情シス）</span></p>
+              <h1 class="nameplate__title"><span class="u-nowrap">鬼無里</span> <span class="u-nowrap">餅衛門</span></h1>
+            </hgroup>
+            <dl class="nameplate__meta">
+              <div><dt>拠点</dt><dd>北陸地方</dd></div>
+              <div><dt>働き方</dt><dd>フルリモート</dd></div>
+              <div><dt>情シス歴</dt><dd>2019年〜</dd></div>
+            </dl>
+          </div>
         </div>
         <div class="hero__body">
           <p class="hero__lead">情シス（コーポレートITエンジニア）を生業としている、鬼無里 餅衛門のポートフォリオサイトです。</p>
@@ -136,14 +145,7 @@
             <li>副業として、コーポレートIT領域をコンサルティング支援</li>
             <li>情シスとしての知見をアウトプットとして継続発信</li>
           </ul>
-        </div>
-        <div class="hero__footer">
-          <dl class="hero__meta">
-            <div><dt>拠点</dt><dd>北陸地方</dd></div>
-            <div><dt>働き方</dt><dd>フルリモート</dd></div>
-            <div><dt>情シス歴</dt><dd>2019年〜</dd></div>
-          </dl>
-          <p class="hero__updated">Last Update：<time datetime="2026-11-05">2026.11.05</time></p>
+          <p class="hero__updated">Last Update：<time datetime="2026-11-08">2026.11.08</time></p>
         </div>
       </div>
     </section>
@@ -152,7 +154,6 @@
     <section class="section" id="about" aria-labelledby="about-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">01 About</p>
           <h2 class="dads-heading__heading" id="about-heading">自己紹介</h2>
         </hgroup>
 
@@ -282,7 +283,6 @@
     <section class="section" id="specialty" aria-labelledby="specialty-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">02 Specialty</p>
           <h2 class="dads-heading__heading" id="specialty-heading">専門・得意領域</h2>
         </hgroup>
         <p>これまでの業務経験から、特に強みとしている領域です。</p>
@@ -301,7 +301,6 @@
     <section class="section" id="career" aria-labelledby="career-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">03 Career</p>
           <h2 class="dads-heading__heading" id="career-heading">経歴・履歴</h2>
         </hgroup>
         <p>正社員としての職歴と、副業（業務委託）の履歴を新しい順に掲載しています。</p>
@@ -574,8 +573,7 @@
     <section class="section" id="skills" aria-labelledby="skills-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">04 Skills</p>
-          <h2 class="dads-heading__heading" id="skills-heading">ITサービス・ソフトウェア・言語</h2>
+          <h2 class="dads-heading__heading" id="skills-heading"><span class="u-nowrap">ITサービス・</span><span class="u-nowrap">ソフトウェア・</span><span class="u-nowrap">言語</span></h2>
         </hgroup>
         <p>業務で扱ってきた主なITサービス・ソフトウェア・言語を領域別にまとめています。</p>
 
@@ -794,7 +792,6 @@
     <section class="section" id="certifications" aria-labelledby="certifications-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">05 Certifications</p>
           <h2 class="dads-heading__heading" id="certifications-heading">保有資格</h2>
         </hgroup>
         <dl class="dads-description-list">
@@ -835,7 +832,6 @@
     <section class="section" id="output" aria-labelledby="output-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">06 Output</p>
           <h2 class="dads-heading__heading" id="output-heading">アウトプット</h2>
         </hgroup>
         <div class="subsection">
@@ -853,7 +849,6 @@
     <section class="section" id="job-change" aria-labelledby="job-change-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">07 Career Change</p>
           <h2 class="dads-heading__heading" id="job-change-heading">転職</h2>
         </hgroup>
         <div class="status">
@@ -895,7 +890,6 @@
     <section class="section" id="contact" aria-labelledby="contact-heading">
       <div class="container">
         <hgroup class="dads-heading" data-size="32" data-chip>
-          <p class="dads-heading__shoulder">08 Contact</p>
           <h2 class="dads-heading__heading" id="contact-heading">お問い合わせ</h2>
         </hgroup>
         <p>お問い合わせは、<a class="dads-link" href="https://twitter.com/kinasato_mochi" target="_blank" rel="noopener">X（Twitter）のDM<svg class="dads-link__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentcolor" stroke-width="2"/></svg><span class="dads-u-visually-hidden">（新しいタブで開きます）</span></a>からお気軽にご連絡ください。</p>
