@@ -130,3 +130,37 @@ if (skillFilter) {
   applyFilter('all');
   skillFilter.hidden = false;
 }
+
+// 経歴の在籍期間バー：全期間（最初の入社月〜今月）を軸に、各項目の位置と長さを計算する
+(() => {
+  const items = [...document.querySelectorAll('.tenure[data-start]')];
+  if (!items.length) return;
+
+  const toMonth = (value) => {
+    const [y, m] = value.split('-').map(Number);
+    return y * 12 + (m - 1);
+  };
+  const now = new Date();
+  const thisMonth = now.getFullYear() * 12 + now.getMonth();
+  const axisStart = Math.min(...items.map((el) => toMonth(el.dataset.start)));
+  const axisLength = thisMonth - axisStart + 1;
+
+  const formatLength = (months) => {
+    const years = Math.floor(months / 12);
+    const rest = months % 12;
+    if (years === 0) return `${rest}か月`;
+    return rest === 0 ? `${years}年` : `${years}年${rest}か月`;
+  };
+
+  for (const el of items) {
+    const start = toMonth(el.dataset.start);
+    const end = el.dataset.end ? toMonth(el.dataset.end) : thisMonth;
+    const months = end - start + 1;
+    el.style.setProperty('--from', ((start - axisStart) / axisLength).toFixed(4));
+    el.style.setProperty('--span', (months / axisLength).toFixed(4));
+    el.querySelector('.tenure__length').textContent = `${el.dataset.end ? '' : '継続中・'}${formatLength(months)}`;
+    el.hidden = false;
+  }
+  const note = document.querySelector('.tenure-note');
+  if (note) note.hidden = false;
+})();

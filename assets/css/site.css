@@ -22,7 +22,7 @@
   --site-hero-field: var(--color-primitive-purple-1200);
   --site-label: #ffffff;
   /* 名前とセクション見出しの書体 */
-  --site-font-display: "BIZ UDPMincho", "Noto Serif JP", serif;
+  --site-font-display: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
   /* デスクトップで追従するページ内メニューの高さ（見出し欄の追従位置に使う） */
   --site-nav-height: calc(68 / 16 * 1rem);
 }
@@ -266,7 +266,7 @@ p:last-child { margin-bottom: 0; }
 
 @media (min-width: 60rem) {
   .hero__grid {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
     align-items: center;
     gap: calc(48 / 16 * 1rem);
   }
@@ -353,6 +353,66 @@ p:last-child { margin-bottom: 0; }
   }
 
   .nameplate__title { font-size: calc(48 / 16 * 1rem); }
+}
+
+/* デスクトップはバーコード欄のぶん名前を少し小さくして1行に収める */
+@media (min-width: 60rem) {
+  .nameplate__title { font-size: calc(44 / 16 * 1rem); }
+}
+
+/* ラベル右端のバーコードと管理番号（装飾）。
+   モバイル：本体の下に横向き。タブレット以上：右端にミシン目で区切った縦向きの欄 */
+.nameplate__code {
+  display: flex;
+  align-items: flex-end;
+  gap: calc(12 / 16 * 1rem);
+  grid-column: 2;
+  padding: 0 calc(16 / 16 * 1rem) calc(16 / 16 * 1rem);
+  color: var(--color-neutral-solid-gray-900);
+}
+
+.nameplate__barcode { display: block; }
+
+.nameplate__barcode--h {
+  width: calc(120 / 16 * 1rem);
+  height: calc(24 / 16 * 1rem);
+}
+
+.nameplate__barcode--v { display: none; }
+
+.nameplate__code-text {
+  color: var(--color-neutral-solid-gray-700);
+  font-size: calc(14 / 16 * 1rem);
+  line-height: 1;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 48rem) {
+  .nameplate { grid-template-columns: auto 1fr auto; }
+
+  .nameplate__code {
+    grid-column: 3;
+    grid-row: 1;
+    align-items: stretch;
+    gap: calc(8 / 16 * 1rem);
+    padding: calc(20 / 16 * 1rem) calc(16 / 16 * 1rem);
+    border-left: 2px dashed var(--color-neutral-solid-gray-420);
+  }
+
+  .nameplate__barcode--h { display: none; }
+
+  .nameplate__barcode--v {
+    display: block;
+    width: calc(24 / 16 * 1rem);
+    height: 100%;
+    min-height: calc(120 / 16 * 1rem);
+  }
+
+  .nameplate__code-text {
+    writing-mode: vertical-rl;
+    line-height: 1.2;
+  }
 }
 
 .hero__lead { margin: 0 0 calc(12 / 16 * 1rem); }
@@ -504,6 +564,61 @@ p:last-child { margin-bottom: 0; }
     grid-row: 1 / span 4;
     margin: 0;
   }
+}
+
+/* 経歴の在籍期間バー（site.js が位置と長さを計算して表示する） */
+.tenure {
+  display: flex;
+  align-items: center;
+  gap: calc(12 / 16 * 1rem);
+  margin: calc(8 / 16 * 1rem) 0 0;
+}
+
+.tenure[hidden],
+.tenure-note[hidden] { display: none; }
+
+.tenure-note {
+  display: block;
+  color: var(--color-neutral-solid-gray-700);
+  font-size: calc(14 / 16 * 1rem);
+}
+
+/* 全期間（最初の入社月〜今月）を軸にした帯。塗りの位置と長さで在籍時期を示す */
+.tenure__track {
+  position: relative;
+  flex: 1;
+  max-width: calc(360 / 16 * 1rem);
+  height: calc(8 / 16 * 1rem);
+  border-radius: calc(4 / 16 * 1rem);
+  background-color: var(--color-neutral-solid-gray-100);
+  overflow: hidden;
+}
+
+.tenure__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--from, 0) * 100%);
+  width: max(calc(4 / 16 * 1rem), calc(var(--span, 0) * 100%));
+  border-radius: inherit;
+  background-color: var(--color-key-900);
+}
+
+.tenure[data-kind="side"] .tenure__fill { background-color: var(--color-primitive-yellow-900); }
+
+:root[data-theme="dark"] .tenure[data-kind="side"] .tenure__fill { background-color: var(--color-primitive-yellow-300); }
+
+.tenure__length {
+  flex-shrink: 0;
+  color: var(--color-neutral-solid-gray-700);
+  font-size: calc(14 / 16 * 1rem);
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (forced-colors: active) {
+  .tenure__track { border: 1px solid CanvasText; }
+  .tenure__fill { background-color: CanvasText; }
 }
 
 /* 基礎情報は項目名と内容を常に横並びにしてコンパクトに */
