@@ -87,21 +87,6 @@ if ('IntersectionObserver' in window) {
     }
   }, { rootMargin: '-45% 0px -50% 0px' });
   sections.forEach((section) => currentObserver.observe(section));
-
-  // セクションの表示アニメーション（視差効果を減らす設定では行わない）
-  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        entry.target.classList.add('is-visible');
-        revealObserver.unobserve(entry.target);
-      }
-    }, { threshold: 0.05 });
-    for (const section of sections) {
-      section.classList.add('reveal');
-      revealObserver.observe(section);
-    }
-  }
 }
 
 // スキル一覧の絞り込み（ジャンルのチップ色＝領域で判定）
