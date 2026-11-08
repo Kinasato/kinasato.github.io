@@ -444,7 +444,7 @@ p:last-child { margin-bottom: 0; }
 @media (min-width: 60rem) {
   .section > .container {
     display: grid;
-    grid-template-columns: calc(200 / 16 * 1rem) minmax(0, 1fr);
+    grid-template-columns: calc(240 / 16 * 1rem) minmax(0, 1fr);
     column-gap: calc(48 / 16 * 1rem);
     align-items: start;
   }
@@ -457,6 +457,12 @@ p:last-child { margin-bottom: 0; }
     grid-column: 1;
     grid-row: 1 / span 20;
     margin: 0;
+  }
+
+  /* 見出し欄（240px）に収まるサイズに抑える。折り返しは u-nowrap の区切りで行う */
+  .section > .container > .dads-heading .dads-heading__heading {
+    font-size: calc(22 / 16 * 1rem);
+    line-height: 1.4;
   }
 
   .section > .container > .dads-heading + * { margin-top: 0; }
