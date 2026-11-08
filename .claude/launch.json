@@ -6,6 +6,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8765"],
       "port": 8765
+    },
+    {
+      "name": "static-ps",
+      "runtimeExecutable": "powershell",
+      "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", "$root=(Get-Location).Path; $l=New-Object System.Net.HttpListener; $l.Prefixes.Add('http://localhost:8766/'); $l.Start(); Write-Host 'Serving on http://localhost:8766/'; $types=@{'.html'='text/html; charset=utf-8';'.css'='text/css; charset=utf-8';'.js'='application/javascript; charset=utf-8';'.png'='image/png';'.jpg'='image/jpeg';'.jpeg'='image/jpeg';'.svg'='image/svg+xml';'.ico'='image/x-icon';'.json'='application/json';'.webp'='image/webp';'.woff2'='font/woff2'}; while($l.IsListening){ $c=$l.GetContext(); $p=[Uri]::UnescapeDataString($c.Request.Url.AbsolutePath).TrimStart('/'); if($p -eq '' -or $p.EndsWith('/')){$p+='index.html'}; $f=Join-Path $root $p; if(Test-Path $f -PathType Leaf){ $b=[IO.File]::ReadAllBytes($f); $e=[IO.Path]::GetExtension($f).ToLower(); $c.Response.ContentType= if($types[$e]){$types[$e]}else{'application/octet-stream'}; $c.Response.OutputStream.Write($b,0,$b.Length); Write-Host \"200 /$p\" } else { $c.Response.StatusCode=404; Write-Host \"404 /$p\" }; $c.Response.Close() }"],
+      "port": 8766
     }
   ]
 }
