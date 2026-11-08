@@ -444,8 +444,8 @@ p:last-child { margin-bottom: 0; }
 @media (min-width: 60rem) {
   .section > .container {
     display: grid;
-    grid-template-columns: calc(240 / 16 * 1rem) minmax(0, 1fr);
-    column-gap: calc(48 / 16 * 1rem);
+    grid-template-columns: calc(256 / 16 * 1rem) minmax(0, 1fr);
+    column-gap: calc(40 / 16 * 1rem);
     align-items: start;
   }
 
@@ -459,11 +459,14 @@ p:last-child { margin-bottom: 0; }
     margin: 0;
   }
 
-  /* 見出し欄（240px）に収まるサイズに抑える。折り返しは u-nowrap の区切りで行う */
+  /* 見出し欄（256px）に収まるサイズに抑える。折り返しは u-nowrap の区切りで行う */
   .section > .container > .dads-heading .dads-heading__heading {
-    font-size: calc(22 / 16 * 1rem);
+    font-size: calc(24 / 16 * 1rem);
     line-height: 1.4;
   }
+
+  /* セクション内の小見出しはセクション見出し（24px）より小さくし、大小関係を保つ */
+  .section .dads-heading[data-size="24"] { font-size: calc(20 / 16 * 1rem); }
 
   .section > .container > .dads-heading + * { margin-top: 0; }
 }
@@ -482,6 +485,32 @@ p:last-child { margin-bottom: 0; }
   display: flex;
   flex-wrap: wrap;
   gap: calc(8 / 16 * 1rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 保有資格：区分ごとに横へ並べる（資格名が折り返さない幅を確保し、狭い画面では縦積み） */
+.cert-list {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(280 / 16 * 1rem)), 1fr));
+  gap: calc(24 / 16 * 1rem) calc(32 / 16 * 1rem);
+  align-items: start;
+}
+
+.cert-list > div {
+  border-top: 1px solid var(--color-neutral-solid-gray-420);
+  padding-top: calc(12 / 16 * 1rem);
+}
+
+.cert-list dt { margin-bottom: calc(8 / 16 * 1rem); }
+
+.cert-list dd { margin-left: 0; }
+
+/* お問い合わせ：各アカウントへのリンクを横一列に（収まらなければ折り返す） */
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(8 / 16 * 1rem) calc(32 / 16 * 1rem);
   margin: 0;
   padding: 0;
   list-style: none;
